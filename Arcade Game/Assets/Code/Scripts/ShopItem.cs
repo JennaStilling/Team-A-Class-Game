@@ -9,8 +9,8 @@ public abstract class ShopItem : MonoBehaviour
     public int CostProp => _cost;
 
     [SerializeField]
-    protected Sprite _itemImage;//probably some sort of ui element, png or something
-    public Sprite ItemImageProp => _itemImage;//probably some sort of ui element, png or something
+    protected Sprite _itemImage;
+    public Sprite ItemImageProp => _itemImage;
 
     [SerializeField]
     protected string _itemName;
@@ -20,5 +20,5 @@ public abstract class ShopItem : MonoBehaviour
     protected string _itemDescription;
     public string ItemDescriptionProp => _itemDescription;
 
-    public abstract void PurchaseEffect();
+    public abstract void PurchaseEffect(); //could turn this into a list of listeners or something, like how on click works
 }

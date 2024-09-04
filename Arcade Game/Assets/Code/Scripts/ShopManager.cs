@@ -23,7 +23,7 @@ public class ShopManager : MonoBehaviour
     public void OpenShop(int tickets)
     {
         canvas.gameObject.SetActive(true);
-        ticketText.text = "Tickets: " + tickets.ToString(); //bad
+        ticketText.text = "Tickets: " + tickets.ToString();
         currentSession = new ShopSession(shopItems, panel, shopLineItemUI, ticketText);
         currentSession.StartSession(tickets);
     }
