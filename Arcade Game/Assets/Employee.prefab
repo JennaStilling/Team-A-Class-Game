@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8304898833526961452}
   - component: {fileID: 701500051419077238}
   - component: {fileID: 765528234590380277}
-  - component: {fileID: 8091352190479984295}
   - component: {fileID: -5586937688201232982}
+  - component: {fileID: -3881278571858931969}
   m_Layer: 0
   m_Name: Employee
   m_TagString: Untagged
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9fb12259df5f0b540b1c0fbe7de67a55, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,19 +109,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8091352190479984295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8918164339282176208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff9dab5d0dbbc3d40b0a823837ff7096, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints: []
 --- !u!114 &-5586937688201232982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,3 +122,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isManager: 0
+--- !u!114 &-3881278571858931969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8918164339282176208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9dab5d0dbbc3d40b0a823837ff7096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

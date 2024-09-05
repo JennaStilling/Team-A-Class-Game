@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using BehaviorTree;
+using UnityEngine;
+using Tree = BehaviorTree.Tree;
 
 public class EmployeeBT : Tree
 {
     public UnityEngine.Transform[] waypoints; // can change in future if / when we want enemy to randomly walk around arcade
 
-    public static float speed = 2f;
-    public static float fovRange = 4f;
-    public static float attackRange = 2f;
+    [SerializeField] public static float speed = 2f;
+    [SerializeField] public static float fovRange = 4f;
+    [SerializeField] public static float attackRange = 2f;
 
     protected override Node SetupTree()
     {
