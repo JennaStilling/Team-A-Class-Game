@@ -13,7 +13,7 @@ public class EmployeeBT : Tree
 
     protected override Node SetupTree()
     {
-        Node root = new Selector(new List<Node>
+/*Node root = new Selector(new List<Node>
          {
              new Sequence(new List<Node>
              {
@@ -28,23 +28,23 @@ public class EmployeeBT : Tree
              new EmployeeTaskPatrol(transform, waypoints), // default - will walk if player not in range
          });
 
-        return root; 
-       /*Node root = new Selector(new List<Node>
+        return root; */
+       Node root = new Selector(new List<Node>
        {
            new Sequence(new List<Node> // am I under attack?
            {
-               // new EmployeeCheckIfSelfUnderAttack(transform),
-               // new TaskGoToTarget(transform),
+               new EmployeeCheckIfSelfUnderAttack(transform),
+               new TaskGoToTarget(transform),
            }),
            new Sequence(new List<Node> // am I attacking?
            {
-               // new EmployeeCheckIfSelfUnderAttack(transform),
-               // new EmployeeCheckEnemyInAttackRange(transform),
-               // new EmployeeTaskAttack(),
+               new EmployeeCheckIfSelfUnderAttack(transform),
+               new EmployeeCheckEnemyInAttackRange(transform),
+               new EmployeeTaskAttack(transform),
            }),
            new EmployeeTaskPatrol(transform, waypoints), // default
        });
-       return root;*/
+       return root;
     }
     
     public void SetSpeed(float s)

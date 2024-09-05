@@ -6,7 +6,7 @@ public class EmployeeEnemyManager : MonoBehaviour
     private int _tokensUponDeath;
     public bool isManager; // keep to have some employees be worth more, like managers? tbd
     private bool _isDead = false;
-    public bool isUnderAttack {  get;  set; }= false;
+    [SerializeField] public bool isUnderAttack = false;
 
     private void Awake()
     {
