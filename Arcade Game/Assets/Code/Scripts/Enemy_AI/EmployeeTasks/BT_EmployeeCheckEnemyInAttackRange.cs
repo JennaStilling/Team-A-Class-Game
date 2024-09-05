@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using BehaviorTree;
 
-public class CheckEnemyInAttackRange : Node
+public class EmployeeCheckEnemyInAttackRange : Node
 {
     private Transform _transform;
     private Animator _animator;
 
-    public CheckEnemyInAttackRange(Transform transform)
+    public EmployeeCheckEnemyInAttackRange(Transform transform)
     {
         _transform = transform;
-        _animator = transform.GetComponent<Animator>();
+        // initialize animator
     }
 
     public override NodeState Evaluate()
@@ -25,11 +24,9 @@ public class CheckEnemyInAttackRange : Node
         }
 
         Transform target = (Transform)t;
-        if (Vector2.Distance(_transform.position, target.position) <= EnemyBT.attackRange)
+        if (Vector3.Distance(_transform.position, target.position) <= EmployeeBT.attackRange)
         {
-            _animator.SetBool("Attacking", true);
-            _animator.SetBool("Walking", false);
-            Debug.Log("here!!");
+            // set animations - attacking & not walking
             state = NodeState.SUCCESS;
             return state;
         }

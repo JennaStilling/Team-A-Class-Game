@@ -4,10 +4,10 @@ using UnityEngine;
 
 using BehaviorTree;
 
-public class TaskPatrol : Node
+public class EmployeeTaskPatrol : Node
 {
     private Transform _transform;
-    private Animator _animator;
+    private Animator _animator; // to be added later, see code below
     private Transform[] _waypoints;
 
     private int _currentWaypointIndex = 0;
@@ -16,10 +16,10 @@ public class TaskPatrol : Node
     private float _waitCounter = 0f;
     private bool _waiting = false;
 
-    public TaskPatrol(Transform transform, Transform[] waypoints)
+    public EmployeeTaskPatrol(Transform transform, Transform[] waypoints)
     {
         _transform = transform;
-        _animator = transform.GetComponent<Animator>();
+        // initialize animator
         _waypoints = waypoints;
     }
 
@@ -31,7 +31,7 @@ public class TaskPatrol : Node
             if (_waitCounter >= _waitTime)
             {
                 _waiting = false;
-                _animator.SetBool("Walking", true);
+                // animation code - walking
             }
         }
         else
@@ -44,12 +44,13 @@ public class TaskPatrol : Node
                 _waiting = true;
 
                 _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Length;
-                _animator.SetBool("Walking", false);
+                // animation code - no longer walking
             }
             else
             {
-                _transform.position = Vector2.MoveTowards(_transform.position, wp.position, EnemyBT.speed * Time.deltaTime);
-                //_transform.LookAt(wp.position);
+                _transform.position = Vector3.MoveTowards(
+                    _transform.position, wp.position, EmployeeBT.speed * Time.deltaTime);
+                _transform.LookAt(wp.position);
             }
         }
 

@@ -4,9 +4,9 @@ using UnityEngine;
 
 using BehaviorTree;
 
-public class TaskAttack : Node
+public class EmployeeTaskAttack : Node
 {
-    private Animator _animator;
+    private Animator _animator; // tbd - see animation comments below
 
     private Transform _lastTarget;
     private EnemyManager _enemyManager;
@@ -14,9 +14,9 @@ public class TaskAttack : Node
     private float _attackTime = 1f;
     private float _attackCounter = 0f;
 
-    public TaskAttack(Transform transform)
+    public EmployeeTaskAttack(Transform transform)
     {
-        _animator = transform.GetComponent<Animator>();
+        // initialize animator
     }
 
     public override NodeState Evaluate()
@@ -31,12 +31,11 @@ public class TaskAttack : Node
         _attackCounter += Time.deltaTime;
         if (_attackCounter >= _attackTime)
         {
-            bool enemyIsDead = _enemyManager.TakeHit();
+            bool enemyIsDead = _enemyManager.TakeDamage();
             if (enemyIsDead)
             {
                 ClearData("target");
-                _animator.SetBool("Attacking", false);
-                _animator.SetBool("Walking", true);
+                // set animation - walking, not attacking
             }
             else
             {

@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using BehaviorTree;
 
-public class TaskGoToTarget : Node
+public class EmployeeTaskAnswerTheCall : Node
 {
     private Transform _transform;
-    private Animator _animator;
+    private Animator _animator; // to add later
 
-    public TaskGoToTarget(Transform transform)
+    public EmployeeTaskAnswerTheCall(Transform transform)
     {
         _transform = transform;
         // initialize animator
@@ -21,8 +20,8 @@ public class TaskGoToTarget : Node
 
         if (Vector2.Distance(_transform.position, target.position) > 0.01f)
         {
-            _transform.position = Vector3.MoveTowards(
-                _transform.position, new Vector3(target.position.x, _transform.position.y), EmployeeBT.speed * Time.deltaTime);
+            _transform.position = Vector2.MoveTowards(
+                _transform.position, new Vector2(target.position.x, _transform.position.y), EmployeeBT.speed * Time.deltaTime);
             _transform.LookAt(target.position);
             // set animation - walking
         }
@@ -30,5 +29,4 @@ public class TaskGoToTarget : Node
         state = NodeState.RUNNING;
         return state;
     }
-
 }
