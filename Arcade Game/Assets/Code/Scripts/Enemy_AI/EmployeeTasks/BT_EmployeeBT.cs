@@ -31,12 +31,12 @@ public class EmployeeBT : Tree
        {
            new Sequence(new List<Node> // am I under attack?
            {
-               // check if under attack,
+               // new EmployeeCheckIfSelfUnderAttack(transform),
                // new TaskGoToTarget(transform),
            }),
            new Sequence(new List<Node> // am I attacking?
            {
-               // check if under attack,
+               // new EmployeeCheckIfSelfUnderAttack(transform),
                // new EmployeeCheckEnemyInAttackRange(transform),
                // new EmployeeTaskAttack(),
            }),
@@ -44,13 +44,6 @@ public class EmployeeBT : Tree
        });
        return root;*/
     }
-    
-    
-    /* TODO
-     -Rewrite task lists / sequences
-     -Update names of all tasks and find common naming scheme
-     -Review code and make modifications as needed
-     */
     
     public void SetSpeed(float s)
     {

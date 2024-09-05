@@ -4,9 +4,9 @@ public class EmployeeEnemyManager : MonoBehaviour
 {
     private int _healthpoints;
     private int _tokensUponDeath;
-    public bool isManager; // keep to have some employees be worth more, like managers?
+    public bool isManager; // keep to have some employees be worth more, like managers? tbd
     private bool _isDead = false;
-    public bool _isUnderAttack {  get;  set; }= false;
+    public bool isUnderAttack {  get;  set; }= false;
 
     private void Awake()
     {

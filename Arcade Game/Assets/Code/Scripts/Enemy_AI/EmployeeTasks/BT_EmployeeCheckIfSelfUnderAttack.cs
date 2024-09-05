@@ -15,7 +15,7 @@ public class EmployeeCheckIfSelfUnderAttack : Node
     }
     public override NodeState Evaluate()
     {
-        if (_selfManager._isUnderAttack)
+        if (_selfManager.isUnderAttack)
         {
             return NodeState.SUCCESS;
         }
