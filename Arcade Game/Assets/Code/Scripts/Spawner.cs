@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject employee;
+    [SerializeField] private GameObject _employee;
     //[SerializeField] private SpawnDirections direction; // defunct, won't use
-    [SerializeField] private Transform spawnPoint;
-    [SerializeField] private float spawnTimer = 5f;
-    private Transform[] tempWaypoints;
-    [SerializeField] private int employeeLimit = 5;
+    [SerializeField] private Transform _spawnPoint;
+    //[SerializeField] private float spawnTimer = 5f;
+    [SerializeField] private float _minSpawnTime = 10f;
+    [SerializeField] private float _maxSpawnTime = 15f;
+    private Transform[] _tempWaypoints;
+    [SerializeField] private int _employeeLimit = 5;
     
     // Start is called before the first frame update
     void Start()
     {
-        tempWaypoints= new Transform[GameObject.Find("Patrol Path").transform.childCount];
+        _tempWaypoints= new Transform[GameObject.Find("Patrol Path").transform.childCount];
         GameObject originalGameObject = GameObject.Find("Patrol Path");
 
-        for (int i = 0; i < tempWaypoints.Length; i++)
-            tempWaypoints[i] = originalGameObject.transform.GetChild(i).transform;
+        for (int i = 0; i < _tempWaypoints.Length; i++)
+            _tempWaypoints[i] = originalGameObject.transform.GetChild(i).transform;
         
-        employee.GetComponent<EmployeeBT>().waypoints = tempWaypoints;
+        _employee.GetComponent<EmployeeBT>().waypoints = _tempWaypoints;
         StartCoroutine(HandleSpawnTimer());
     }
 
     private void SpawnEnemy()
     {
         Debug.Log("Spawned enemy");
-        Instantiate(employee, spawnPoint);
+        Instantiate(_employee, _spawnPoint);
     }
 
     /*
@@ -38,8 +40,9 @@ public class Spawner : MonoBehaviour
      */
     public IEnumerator HandleSpawnTimer()
     {
-        yield return new WaitForSeconds(spawnTimer);
-        if (GameObject.Find("SpawnLocation").transform.childCount < employeeLimit)
+        //yield return new WaitForSeconds(spawnTimer);
+        yield return new WaitForSeconds(Random.Range(_minSpawnTime, _maxSpawnTime));
+        if (GameObject.Find("SpawnLocation").transform.childCount < _employeeLimit)
             SpawnEnemy();
         StartCoroutine(HandleSpawnTimer());
     }
