@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
 
     {
-
+        Debug.Log("Player movement script has loaded");
         characterController = GetComponent<CharacterController>();
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -153,6 +153,7 @@ public class PlayerMovement : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
 
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            Debug.Log("moving");
 
         }
 
