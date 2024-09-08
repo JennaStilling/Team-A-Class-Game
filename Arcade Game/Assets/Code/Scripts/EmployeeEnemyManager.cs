@@ -1,8 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EmployeeEnemyManager : MonoBehaviour
 {
     [SerializeField] private int _healthpoints = 30;
+    [SerializeField] private GameObject _token; // change comment pt 1 - eventually remove and replace below with asset path
+    [SerializeField] private int maxTokens = 3;
     private int _tokensUponDeath;
     public bool isManager; // keep to have some employees be worth more, like managers? tbd
     private bool _isDead = false;
@@ -11,10 +14,16 @@ public class EmployeeEnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        _tokensUponDeath = Random.Range(1, 3);
+        _tokensUponDeath = Random.Range(1, maxTokens);
 
         if (Random.Range(1, 10) >= 8)
             isManager = true;
+    }
+
+    private void Update()
+    {
+        _isDead = _healthpoints <= 0;
+        if (_isDead) Die();
     }
 
     public bool TakeDamage()
@@ -37,8 +46,12 @@ public class EmployeeEnemyManager : MonoBehaviour
         if (isManager)
             _tokensUponDeath *= 2;
         for (int i = 0; i < _tokensUponDeath; i++)
-            Debug.Log("Spawning coin #"+i); // spawn coins at location of death
-            //Instantiate(token, self.transform.position, self.transform.rotation);
+        {
+            Debug.Log("Spawning coin #" + i); // spawn coins at location of death
+            Instantiate(_token, transform.position,
+                transform.rotation); // change comment pt 2 - will eventually find path to prefab
+        }
+
         Destroy(gameObject);
     }
 }
