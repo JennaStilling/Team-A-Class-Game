@@ -53,8 +53,11 @@ public class ShopManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         canvas.gameObject.SetActive(false);
-        currentSession.EndSession();
+        if(currentSession != null) {
+            currentSession.EndSession();
+        }
     }
+    
 
     public bool TryOpenShop(int tickets)
     {
