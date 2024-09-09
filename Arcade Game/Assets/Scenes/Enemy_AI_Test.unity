@@ -345,7 +345,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 0.5, z: 10}
+  m_LocalScale: {x: 34.55, y: 0.5, z: 17.897}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -382,10 +382,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a939f5a553e47dd4cb5ef31f4e797d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  employee: {fileID: 8918164339282176208, guid: 44eb9cdc7b3f34c4aaec73d911d4d65f, type: 3}
-  spawnPoint: {fileID: 1951551515}
-  spawnTimer: 1
-  employeeLimit: 5
+  _employee: {fileID: 0}
+  _spawnPoint: {fileID: 0}
+  _minSpawnTime: 10
+  _maxSpawnTime: 15
+  _employeeLimit: 5
 --- !u!65 &966461485
 BoxCollider:
   m_ObjectHideFlags: 0
