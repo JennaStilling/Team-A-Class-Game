@@ -1,6 +1,7 @@
+using Observations;
 using UnityEngine;
 
-public class EmployeeEnemyManager : MonoBehaviour
+public class EmployeeEnemyManager : Subject, IObserver
 {
     [SerializeField] private int _healthpoints = 30;
     private int _tokensUponDeath;
@@ -40,5 +41,10 @@ public class EmployeeEnemyManager : MonoBehaviour
             Debug.Log("Spawning coin #"+i); // spawn coins at location of death
             //Instantiate(token, self.transform.position, self.transform.rotation);
         Destroy(gameObject);
+    }
+
+    public void OnNotify(EnemyAlerts alert)
+    {
+        throw new System.NotImplementedException();
     }
 }
