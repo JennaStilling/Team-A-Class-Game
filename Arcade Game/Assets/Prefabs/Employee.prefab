@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthpoints: 30
-  _token: {fileID: 0}
+  _token: {fileID: 7544935482324101898, guid: acf9fcb3a277c3e4d91997e43bd3c48b, type: 3}
   maxTokens: 3
   isManager: 0
   isUnderAttack: 0
