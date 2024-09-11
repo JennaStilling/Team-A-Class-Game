@@ -23,8 +23,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField]
     private float distance;
 
-    [SerializeField]
     GameObject player;
+
+    PlayerMovement playerMovement;
 
     private void OnDrawGizmosSelected()
     {
@@ -34,14 +35,17 @@ public class ShopManager : MonoBehaviour
 
     public void Start()
     {
-        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        player = GameObject.Find("Player");
+        playerMovement = player.GetComponent<PlayerMovement>();
         //find game manager or whatever has the ticket count
+
     }
 
     public void OpenShop(int tickets)
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        playerMovement.CanMoveProp = false;
         canvas.gameObject.SetActive(true);
         ticketText.text = "Tickets: " + tickets.ToString();
         currentSession = new ShopSession(shopItems, panel, shopLineItemUI, ticketText);
@@ -52,8 +56,12 @@ public class ShopManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        playerMovement.CanMoveProp = true;
         canvas.gameObject.SetActive(false);
-        currentSession.EndSession();
+        if (currentSession != null)
+        {
+            currentSession.EndSession();
+        }
     }
 
     public bool TryOpenShop(int tickets)

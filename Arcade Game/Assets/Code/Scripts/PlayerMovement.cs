@@ -42,8 +42,14 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    private bool canMove = true;
-
+    private bool _canMove = true;
+    public bool CanMoveProp 
+    {
+        get { return _canMove; }
+        set {
+            _canMove = value;
+        }
+    }
 
 
     void Start()
@@ -72,9 +78,9 @@ public class PlayerMovement : MonoBehaviour
 
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
 
-        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
+        float curSpeedX = _canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
 
-        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+        float curSpeedY = _canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
 
         float movementDirectionY = moveDirection.y;
 
@@ -82,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+        if (Input.GetButton("Jump") && _canMove && characterController.isGrounded)
 
         {
 
@@ -110,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (Input.GetKey(KeyCode.LeftControl) && canMove)
+        if (Input.GetKey(KeyCode.LeftControl) && _canMove)
 
         {
 
@@ -142,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (canMove)
+        if (_canMove)
 
         {
 
