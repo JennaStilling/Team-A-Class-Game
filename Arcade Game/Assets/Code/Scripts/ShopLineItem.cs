@@ -37,14 +37,21 @@ public class ShopLineItem
             return (!_isLimited || _amountLeft > 0);
         }
 
-    public int Purchase(int amountToPurchase = 1) 
+    public int Purchase(int tickets, int amountToPurchase = 1) 
     {
-        if (_isLimited) 
+        if (tickets >= amountToPurchase * _shopItem.CostProp)
         {
-            if (_amountLeft <= 0)
-                return 0;
-            else if (_amountLeft < amountToPurchase)
-                return 0;
+            if (_isLimited)
+            {
+                if (_amountLeft <= 0)
+                    return 0;
+                else if (_amountLeft < amountToPurchase)
+                    return 0;
+            }
+        }
+        else 
+        {
+            return 0;
         }
 
         _shopItem.PurchaseEffect();

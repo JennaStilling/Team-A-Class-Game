@@ -382,10 +382,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a939f5a553e47dd4cb5ef31f4e797d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  employee: {fileID: 8918164339282176208, guid: 44eb9cdc7b3f34c4aaec73d911d4d65f, type: 3}
-  spawnPoint: {fileID: 1951551515}
-  spawnTimer: 1
-  employeeLimit: 5
+  _employee: {fileID: 1951551514}
+  _spawnPoint: {fileID: 5829729320777302767, guid: 44eb9cdc7b3f34c4aaec73d911d4d65f, type: 3}
+  _minSpawnTime: 1
+  _maxSpawnTime: 2
+  _employeeLimit: 5
 --- !u!65 &966461485
 BoxCollider:
   m_ObjectHideFlags: 0

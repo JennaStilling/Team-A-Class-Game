@@ -80,8 +80,8 @@ public class ShopSession : MonoBehaviour
             return false;
             //disable when you cant buy, perhaps seperate check for out of stock vs not enough tickets
         }
-
-        tickets -= shopItems[itemPosition].Purchase();
+        
+        tickets -= shopItems[itemPosition].Purchase(tickets);
 
         ShopLineItemsUI[itemPosition].transform.Find("StockText").GetComponent<TextMeshProUGUI>().text = shopItems[itemPosition].AmountLeftProp.ToString();
 

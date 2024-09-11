@@ -28,7 +28,7 @@ public class Spawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-     //   Debug.Log("Spawned enemy");
+        Debug.Log("Spawned enemy");
         Instantiate(_employee, _spawnPoint);
     }
 
