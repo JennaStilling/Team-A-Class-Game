@@ -32,6 +32,13 @@ public class MeleeWeapon : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other){
+        if(isSwinging){
+            Debug.Log("HIT");
+        }
+        
+    }
+
     void SwingWeapon()
     {
         currentSwingTime += Time.deltaTime * swingSpeed;
