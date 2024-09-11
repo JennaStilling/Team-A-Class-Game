@@ -27,6 +27,8 @@ public class ShopManager : MonoBehaviour
 
     PlayerMovement playerMovement;
 
+    private GameManager _gameManager;
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -37,8 +39,7 @@ public class ShopManager : MonoBehaviour
     {
         player = GameObject.Find("Player");
         playerMovement = player.GetComponent<PlayerMovement>();
-        //find game manager or whatever has the ticket count
-
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     public void OpenShop(int tickets)
@@ -70,9 +71,7 @@ public class ShopManager : MonoBehaviour
         {
             if (!canvas.gameObject.activeSelf)
             {
-                Debug.Log("Open Menu");
-                OpenShop(tickets);
-                Debug.Log("starting tickets" + tickets);
+                OpenShop(_gameManager.GetTicketValue());
             }
             return true;
         }

@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f20aa7d4-3949-4857-8ecc-5508c965c7f1" name="Changes" comment="" />
+    <list default="true" id="f20aa7d4-3949-4857-8ecc-5508c965c7f1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/MeleeWeapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/MeleeWeapon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/ShopManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/ShopManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/arcadeGame1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/arcadeGame1.unity" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,6 +19,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/011ccacb58784a80ac4b48b4c50ee0b7176400/46/99fd7cb9/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/GameManager.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
