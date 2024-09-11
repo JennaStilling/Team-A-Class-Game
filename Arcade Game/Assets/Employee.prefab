@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 765528234590380277}
   - component: {fileID: -5586937688201232982}
   - component: {fileID: -3881278571858931969}
-  - component: {fileID: 5968627880361505970}
+  - component: {fileID: 1783152758201396238}
+  - component: {fileID: 7733275740683984171}
   m_Layer: 0
   m_Name: Employee
   m_TagString: Untagged
@@ -123,6 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthpoints: 30
+  _token: {fileID: 0}
+  maxTokens: 3
   isManager: 0
   isUnderAttack: 0
 --- !u!114 &-3881278571858931969
@@ -143,7 +146,29 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
---- !u!54 &5968627880361505970
+--- !u!195 &1783152758201396238
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8918164339282176208}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.49999997
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.9999999
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!54 &7733275740683984171
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

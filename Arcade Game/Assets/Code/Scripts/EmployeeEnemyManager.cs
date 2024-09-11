@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EmployeeEnemyManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class EmployeeEnemyManager : MonoBehaviour
     private bool _isDead = false;
     private bool _callForHelp = false;
     [SerializeField] public bool isUnderAttack = false;
+    private NavMeshAgent _agent;
 
     private void Awake()
     {
@@ -18,6 +20,11 @@ public class EmployeeEnemyManager : MonoBehaviour
 
         if (Random.Range(1, 10) >= 8)
             isManager = true;
+        _agent = GetComponent<NavMeshAgent>();
+        if (_agent == null)
+            Debug.Log("Nav mesh agent not found");
+        _agent.updateRotation = false;
+        _agent.stoppingDistance = 0f;
     }
 
     private void Update()
