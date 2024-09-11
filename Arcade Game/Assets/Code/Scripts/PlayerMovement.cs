@@ -40,12 +40,22 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController characterController;
 
-    private bool canMove = true;
+
+
+    private bool _canMove = true;
+    public bool CanMoveProp 
+    {
+        get { return _canMove; }
+        set {
+            _canMove = value;
+        }
+    }
+
 
     void Start()
 
     {
-
+        Debug.Log("Player movement script has loaded");
         characterController = GetComponent<CharacterController>();
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -68,17 +78,17 @@ public class PlayerMovement : MonoBehaviour
 
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
 
-        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
+        float curSpeedX = _canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
 
-        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+        float curSpeedY = _canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
 
         float movementDirectionY = moveDirection.y;
 
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-        
 
 
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+
+        if (Input.GetButton("Jump") && _canMove && characterController.isGrounded)
 
         {
 
@@ -106,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (Input.GetKey(KeyCode.LeftControl) && canMove)
+        if (Input.GetKey(KeyCode.LeftControl) && _canMove)
 
         {
 
@@ -138,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (canMove)
+        if (_canMove)
 
         {
 
@@ -149,7 +159,10 @@ public class PlayerMovement : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
 
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            //Debug.Log("moving");
 
         }
+
     }
+
 }
