@@ -5,21 +5,18 @@ using UnityEngine;
 
 public class TokenCollection : MonoBehaviour
 {
-    private int Token = 0;
+    private GameManager _gameManager;
 
-    public TextMeshProUGUI tokenText;
-
-
+    private void Start()
+    {
+        _gameManager = FindObjectOfType<GameManager>();
+    }
     private void OnTriggerEnter(Collider other)
     {
-        
         if(other.transform.tag == "token")
         {
-            Token++;
-            tokenText.text = "Tokens: " + Token.ToString();
-            Debug.Log(Token);
+            _gameManager.AddTokens(1);
             Destroy(other.gameObject);
         }
     }
-
 }

@@ -36,10 +36,8 @@ public class MeleeWeapon : MonoBehaviour
 
     void OnTriggerEnter(Collider other){
         if(isSwinging){
-            //Debug.Log("HIT");
             if (other.CompareTag("Employee"))
             {
-                //Debug.Log("Hit enemy");
                 other.GetComponent<EmployeeEnemyManager>().TakeDamage(_damage);
             }
         }

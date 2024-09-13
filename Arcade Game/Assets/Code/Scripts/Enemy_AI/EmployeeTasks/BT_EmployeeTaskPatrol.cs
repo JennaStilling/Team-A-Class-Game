@@ -47,19 +47,12 @@ public class EmployeeTaskPatrol : Node
                 _navMeshAgent.destination = wp.position;
                 _waitCounter = 0f;
                 _waiting = true;
-                //Debug.Log("Current index: " + _currentWaypointIndex);
                 _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Length;
                 // animation code - no longer walking
             }
             else
             {
-                //bool temp = _navMeshAgent.SetDestination(wp.position);
-                //Debug.Log(temp);
                 _navMeshAgent.destination = wp.position;
-                // _transform.position = Vector3.MoveTowards(
-                //     _transform.position, wp.position, EmployeeBT.speed * Time.deltaTime);
-                //_transform.LookAt(wp.position);
-                //Debug.Log("Current index: " + _currentWaypointIndex);
             }
         }
 

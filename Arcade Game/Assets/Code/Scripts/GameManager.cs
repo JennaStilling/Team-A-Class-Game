@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private int _ticketValue = 1000;
+    private int _ticketValue = 0;
     public int ticketValueProp
     {
         get { return _ticketValue; }

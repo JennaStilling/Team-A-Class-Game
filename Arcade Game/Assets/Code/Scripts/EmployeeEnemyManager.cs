@@ -6,7 +6,12 @@ public class EmployeeEnemyManager : MonoBehaviour
 {
     [SerializeField] private float _healthpoints = 30f;
     [SerializeField] private GameObject _token; // change comment pt 1 - eventually remove and replace below with asset path
-    [SerializeField] private int maxTokens = 3;
+    [SerializeField] private int _maxTokens = 3;
+     public int maxTokensProp {
+         get { return _maxTokens; }
+         set { _maxTokens = value; }
+     }
+    
     private int _tokensUponDeath;
     public bool isManager; // keep to have some employees be worth more, like managers? tbd
     private bool _isDead = false;
@@ -16,8 +21,6 @@ public class EmployeeEnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        _tokensUponDeath = Random.Range(1, maxTokens);
-
         if (Random.Range(1, 10) >= 8)
             isManager = true;
         _agent = GetComponent<NavMeshAgent>();
@@ -40,7 +43,6 @@ public class EmployeeEnemyManager : MonoBehaviour
         Debug.Log(isUnderAttack);
         if (!_callForHelp)
         {
-            Debug.Log("Has called for help");
             _callForHelp = true;
             //NotifyObservers(EnemyAlerts.Help);
         }
@@ -52,12 +54,11 @@ public class EmployeeEnemyManager : MonoBehaviour
 
     private void Die()
     {
-        // drop tokens
+        _tokensUponDeath = Random.Range(1, _maxTokens);
         if (isManager)
             _tokensUponDeath *= 2;
         for (int i = 0; i < _tokensUponDeath; i++)
         {
-            //Debug.Log("Spawning coin #" + i); // spawn coins at location of death
             Instantiate(_token, transform.position,
                 transform.rotation); // change comment pt 2 - will eventually find path to prefab
         }
