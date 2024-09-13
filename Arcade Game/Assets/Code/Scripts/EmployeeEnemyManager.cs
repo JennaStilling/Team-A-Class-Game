@@ -4,14 +4,14 @@ using UnityEngine.AI;
 
 public class EmployeeEnemyManager : MonoBehaviour
 {
-    [SerializeField] private int _healthpoints = 30;
+    [SerializeField] private float _healthpoints = 30f;
     [SerializeField] private GameObject _token; // change comment pt 1 - eventually remove and replace below with asset path
     [SerializeField] private int maxTokens = 3;
     private int _tokensUponDeath;
     public bool isManager; // keep to have some employees be worth more, like managers? tbd
     private bool _isDead = false;
     private bool _callForHelp = false;
-    [SerializeField] public bool isUnderAttack = false;
+    [SerializeField] public bool isUnderAttack;
     private NavMeshAgent _agent;
 
     private void Awake()
@@ -33,11 +33,14 @@ public class EmployeeEnemyManager : MonoBehaviour
         if (_isDead) Die();
     }
 
-    public bool TakeDamage()
+    public bool TakeDamage(float amt)
     {
-        _healthpoints -= 10;
+        _healthpoints -= amt;
+        isUnderAttack = true;
+        Debug.Log(isUnderAttack);
         if (!_callForHelp)
         {
+            Debug.Log("Has called for help");
             _callForHelp = true;
             //NotifyObservers(EnemyAlerts.Help);
         }
@@ -54,7 +57,7 @@ public class EmployeeEnemyManager : MonoBehaviour
             _tokensUponDeath *= 2;
         for (int i = 0; i < _tokensUponDeath; i++)
         {
-            Debug.Log("Spawning coin #" + i); // spawn coins at location of death
+            //Debug.Log("Spawning coin #" + i); // spawn coins at location of death
             Instantiate(_token, transform.position,
                 transform.rotation); // change comment pt 2 - will eventually find path to prefab
         }

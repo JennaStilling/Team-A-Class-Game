@@ -9,6 +9,7 @@ public class MeleeWeapon : MonoBehaviour
     private bool isSwinging = false;
     private float currentSwingTime = 0f;
     private Vector3 initialRotation;
+    [SerializeField] private float _damage = 10f;
     
 
     private bool returning = false;
@@ -35,7 +36,12 @@ public class MeleeWeapon : MonoBehaviour
 
     void OnTriggerEnter(Collider other){
         if(isSwinging){
-            Debug.Log("HIT");
+            //Debug.Log("HIT");
+            if (other.CompareTag("Employee"))
+            {
+                //Debug.Log("Hit enemy");
+                other.GetComponent<EmployeeEnemyManager>().TakeDamage(_damage);
+            }
         }
         
     }
