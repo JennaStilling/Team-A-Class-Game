@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField]
     ShopLineItem[] shopItems;
-    ShopSession currentSession;
 
     [SerializeField]
     TextMeshProUGUI ticketText;
@@ -29,6 +29,12 @@ public class ShopManager : MonoBehaviour
 
     private GameManager _gameManager;
 
+    private UIManager _uIManager;
+
+    private int localTickets;
+
+    private GameObject[] ShopLineItemsUI;
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -40,6 +46,7 @@ public class ShopManager : MonoBehaviour
         player = GameObject.Find("Player");
         playerMovement = player.GetComponent<PlayerMovement>();
         _gameManager = FindObjectOfType<GameManager>();
+        _uIManager = FindObjectOfType<UIManager>();
     }
 
     public void OpenShop(int tickets)
@@ -49,8 +56,7 @@ public class ShopManager : MonoBehaviour
         playerMovement.CanMoveProp = false;
         canvas.gameObject.SetActive(true);
         ticketText.text = "Tickets: " + tickets.ToString();
-        currentSession = new ShopSession(shopItems, panel, shopLineItemUI, ticketText);
-        currentSession.StartSession(tickets);
+        StartSession(tickets);
     }
 
     public void CloseShop()
@@ -58,11 +64,8 @@ public class ShopManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         playerMovement.CanMoveProp = true;
+        _gameManager.ticketValueProp = EndSession();
         canvas.gameObject.SetActive(false);
-        if (currentSession != null)
-        {
-            currentSession.EndSession();
-        }
     }
 
     public bool TryOpenShop(int tickets)
@@ -94,5 +97,82 @@ public class ShopManager : MonoBehaviour
                 CloseShop();
             }
         }
+    }
+
+
+    private void StartSession(int startingTickets)
+    {
+        ShopLineItemsUI = new GameObject[shopItems.Length];
+
+        localTickets = startingTickets;
+
+        int offset = 0;
+        foreach (ShopLineItem lineItem in shopItems)
+        {
+            int unboundOffset = offset;
+
+            //make ui element for line item
+            GameObject lineItemO = Instantiate(shopLineItemUI, panel.transform);
+
+            lineItemO.transform.Find("CostText").GetComponent<TextMeshProUGUI>().text = lineItem.ShopItemProp.CostProp.ToString();
+            lineItemO.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = lineItem.ShopItemProp.ItemNameProp;
+            lineItemO.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>().text = lineItem.ShopItemProp.ItemDescriptionProp;
+            lineItemO.transform.Find("StockText").GetComponent<TextMeshProUGUI>().text = lineItem.AmountLeftProp.ToString();
+            //lineItem.transform.Find("ItemImage").GetComponent<Image>().sprite = shopItems[i].getImage();
+
+            lineItemO.transform.Find("BuyButton").gameObject.GetComponent<Button>().onClick.AddListener(() => PurchaseItem(unboundOffset));
+
+            lineItemO.transform.Translate(Vector3.down * 100 * offset);
+
+            ShopLineItemsUI[offset] = lineItemO;
+
+
+
+
+
+            //make ui element for line item
+            if (!lineItem.IsAvailable())
+            {
+                //set ui for sold out items
+            }
+            else if (true || lineItem.ShopItemProp.CostProp > localTickets)
+            {
+                //set ui for too expensive items
+            }
+            else //probably not needed
+            {
+                // set ui for available items
+            }
+            offset++;
+        }
+    }
+
+    public bool PurchaseItem(int itemPosition)
+    {
+        if (!shopItems[itemPosition].IsAvailable())
+        {
+            return false;
+            //disable when you cant buy, perhaps seperate check for out of stock vs not enough tickets
+        }
+
+        localTickets -= shopItems[itemPosition].Purchase(localTickets);
+
+        ShopLineItemsUI[itemPosition].transform.Find("StockText").GetComponent<TextMeshProUGUI>().text = shopItems[itemPosition].AmountLeftProp.ToString();
+
+        ticketText.text = "Tickets: " + localTickets.ToString();
+
+        return true;
+    }
+
+    private int EndSession()
+    {
+        Debug.Log(ShopLineItemsUI.Length);
+        foreach (GameObject lineItem in ShopLineItemsUI)
+        {
+            Destroy(lineItem);
+            Debug.Log(lineItem);
+        }
+
+        return localTickets;
     }
 }
