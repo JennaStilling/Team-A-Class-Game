@@ -13,22 +13,6 @@ public class EmployeeBT : Tree
 
     protected override Node SetupTree()
     {
-        /*Node root = new Selector(new List<Node>
-         {
-             new Sequence(new List<Node>
-             {
-                 new EmployeeCheckEnemyInAttackRange(transform),
-                 new EmployeeTaskAttack(transform),
-             }),
-             new Sequence(new List<Node>
-             {
-                 new EmployeeCheckEnemyInFOVRange(transform),
-                 new TaskGoToTarget(transform),
-             }),
-             new EmployeeTaskPatrol(transform, waypoints), // default - will walk if player not in range
-         });
-
-        return root; */
        Node root = new Selector(new List<Node>
        {
            new Sequence(new List<Node> // am I under attack?

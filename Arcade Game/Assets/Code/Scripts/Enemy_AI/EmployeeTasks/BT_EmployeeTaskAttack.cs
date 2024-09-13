@@ -27,10 +27,12 @@ public class EmployeeTaskAttack : Node
             _enemyManager = target.GetComponent<EnemyManager>();
             _lastTarget = target;
         }
-        Debug.Log("Attacking");
+
+        //Debug.Log("Attacking");
         _attackCounter += Time.deltaTime;
         if (_attackCounter >= _attackTime)
         {
+            // set animation attacking
             bool enemyIsDead = _enemyManager.TakeDamage();
             if (enemyIsDead)
             {

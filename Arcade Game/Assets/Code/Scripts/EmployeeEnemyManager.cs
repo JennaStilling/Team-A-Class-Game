@@ -1,23 +1,26 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using Observations;
-public class EmployeeEnemyManager : MonoBehaviour, IObserver
+
+public class EmployeeEnemyManager : MonoBehaviour
 {
-    [SerializeField] private float _healthpoints = 30;
+    [SerializeField] private float _healthpoints = 30f;
     [SerializeField] private GameObject _token; // change comment pt 1 - eventually remove and replace below with asset path
-    [SerializeField] private int maxTokens = 3;
+    [SerializeField] private int _maxTokens = 3;
+     public int maxTokensProp {
+         get { return _maxTokens; }
+         set { _maxTokens = value; }
+     }
+    
     private int _tokensUponDeath;
     public bool isManager; // keep to have some employees be worth more, like managers? tbd
     private bool _isDead = false;
     private bool _callForHelp = false;
-    [SerializeField] public bool isUnderAttack = false;
+    [SerializeField] public bool isUnderAttack;
     private NavMeshAgent _agent;
 
     private void Awake()
     {
-        _tokensUponDeath = Random.Range(1, maxTokens);
-
         if (Random.Range(1, 10) >= 8)
             isManager = true;
         _agent = GetComponent<NavMeshAgent>();
@@ -33,15 +36,17 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
         if (_isDead) Die();
     }
 
-    public bool TakeDamage(float value)
+    public bool TakeDamage(float amt)
     {
-        _healthpoints -= value;
+        _healthpoints -= amt;
+        isUnderAttack = true;
+        Debug.Log(isUnderAttack);
         if (!_callForHelp)
         {
             _callForHelp = true;
             //NotifyObservers(EnemyAlerts.Help);
         }
-         
+        
         _isDead = _healthpoints <= 0;
         if (_isDead) Die();
         return _isDead;
@@ -49,24 +54,15 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
 
     private void Die()
     {
-        // drop tokens
+        _tokensUponDeath = Random.Range(1, _maxTokens);
         if (isManager)
             _tokensUponDeath *= 2;
         for (int i = 0; i < _tokensUponDeath; i++)
         {
-            Debug.Log("Spawning coin #" + i); // spawn coins at location of death
             Instantiate(_token, transform.position,
                 transform.rotation); // change comment pt 2 - will eventually find path to prefab
         }
 
         Destroy(gameObject);
-    }
-
-    public void OnNotify(EnemyAlerts alert)
-    {
-        if (alert == EnemyAlerts.Help)
-        {
-            //GameObject.
-        }
     }
 }

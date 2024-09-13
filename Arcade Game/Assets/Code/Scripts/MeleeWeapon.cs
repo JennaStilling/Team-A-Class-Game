@@ -1,22 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using Observations;
 using UnityEngine;
 
-public class MeleeWeapon : Subject
+public class MeleeWeapon : MonoBehaviour
 {
     public float swingSpeed = 5f; // Speed of the swing
     public float swingAngle = 60f;  // Maximum angle of the swing
     private bool isSwinging = false;
     private float currentSwingTime = 0f;
     private Vector3 initialRotation;
-
-    [SerializeField]
-    private float _damage
-    {
-        get { return _damage;}
-        set { _damage = 5f; }
-    }
+    [SerializeField] private float _damage = 10f;
     
 
     private bool returning = false;
@@ -43,10 +36,8 @@ public class MeleeWeapon : Subject
 
     void OnTriggerEnter(Collider other){
         if(isSwinging){
-            Debug.Log("HIT");
             if (other.CompareTag("Employee"))
             {
-                //other.GetComponent<EmployeeEnemyManager>().OnNotify(EnemyAlerts.Help);
                 other.GetComponent<EmployeeEnemyManager>().TakeDamage(_damage);
             }
         }

@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public int ticketValue = 0;   
+    private int _ticketValue = 0;
+    public int ticketValueProp
+    {
+        get { return _ticketValue; }
+        set
+        {
+            _ticketValue = value;
+            onValuesChanged?.Invoke();
+        }
+    }
+
     public int tokenValue = 10; 
 
     public delegate void OnValuesChanged();
@@ -27,8 +37,8 @@ public class GameManager : MonoBehaviour
 
     public void AddTickets(int amount)
     {
-        ticketValue += amount;
-        Debug.Log("Tickets Added: " + amount + ", Total Tickets: " + ticketValue);
+        _ticketValue += amount;
+        Debug.Log("Tickets Added: " + amount + ", Total Tickets: " + _ticketValue);
 
         onValuesChanged?.Invoke();
     }
@@ -60,7 +70,7 @@ public class GameManager : MonoBehaviour
 
     public int GetTicketValue()
     {
-        return ticketValue;
+        return _ticketValue;
     }
 
     public int GetTokenValue()
