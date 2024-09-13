@@ -1,10 +1,10 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-
-public class EmployeeEnemyManager : MonoBehaviour
+using Observations;
+public class EmployeeEnemyManager : MonoBehaviour, IObserver
 {
-    [SerializeField] private int _healthpoints = 30;
+    [SerializeField] private float _healthpoints = 30;
     [SerializeField] private GameObject _token; // change comment pt 1 - eventually remove and replace below with asset path
     [SerializeField] private int maxTokens = 3;
     private int _tokensUponDeath;
@@ -33,15 +33,15 @@ public class EmployeeEnemyManager : MonoBehaviour
         if (_isDead) Die();
     }
 
-    public bool TakeDamage()
+    public bool TakeDamage(float value)
     {
-        _healthpoints -= 10;
+        _healthpoints -= value;
         if (!_callForHelp)
         {
             _callForHelp = true;
             //NotifyObservers(EnemyAlerts.Help);
         }
-        
+         
         _isDead = _healthpoints <= 0;
         if (_isDead) Die();
         return _isDead;
@@ -60,5 +60,13 @@ public class EmployeeEnemyManager : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    public void OnNotify(EnemyAlerts alert)
+    {
+        if (alert == EnemyAlerts.Help)
+        {
+            //GameObject.
+        }
     }
 }
