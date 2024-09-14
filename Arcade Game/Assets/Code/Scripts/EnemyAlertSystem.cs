@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Observations
 {
-    public class EnemyAlertSystem : MonoBehaviour
+    public class EnemyAlertSystem : Subject
     {
         // where subject is the name of the abstract class!!
         [SerializeField] private Subject _playerSubject;
@@ -28,5 +28,12 @@ namespace Observations
                     _enemiesInScene[i].GetComponent<EmployeeEnemyManager>().isUnderAttack = false;
             }
         }
+
+        protected void NotifyObservers(EmployeeEnemyManager alert)
+        {
+            
+        }
     }
 }
+
+
