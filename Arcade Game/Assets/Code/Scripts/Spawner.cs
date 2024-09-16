@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Observations;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class Spawner : PlayerSubject
 {
     [SerializeField] private GameObject _employee;
     //[SerializeField] private SpawnDirections direction; // defunct, won't use
@@ -12,6 +14,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float _maxSpawnTime = 15f;
     private Transform[] _tempWaypoints;
     [SerializeField] private int _employeeLimit = 5;
+    private GameObject _observer;
     
     // Start is called before the first frame update
     void Start()
@@ -23,13 +26,16 @@ public class Spawner : MonoBehaviour
             _tempWaypoints[i] = originalGameObject.transform.GetChild(i).transform;
         
         _employee.GetComponent<EmployeeBT>().waypoints = _tempWaypoints;
+        AddObserver(FindObjectOfType<MeleeWeapon>());
+        
         StartCoroutine(HandleSpawnTimer());
     }
 
     private void SpawnEnemy()
     {
         Debug.Log("Spawned enemy");
-        Instantiate(_employee, _spawnPoint);
+        GameObject temp = Instantiate(_employee, _spawnPoint);
+        NotifyObservers(temp.GetComponent<EmployeeEnemyManager>());
     }
 
     /*

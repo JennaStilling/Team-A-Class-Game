@@ -8,6 +8,7 @@ public class ShopManager : MonoBehaviour
 {
     [SerializeField]
     Canvas canvas;
+
     [SerializeField]
     GameObject panel;
 
@@ -110,25 +111,30 @@ public class ShopManager : MonoBehaviour
         foreach (ShopLineItem lineItem in shopItems)
         {
             int unboundOffset = offset;
-
-            //make ui element for line item
             GameObject lineItemO = Instantiate(shopLineItemUI, panel.transform);
+
+            lineItemO.transform.Find("BuyButton").gameObject.GetComponent<Button>().onClick.AddListener(() => PurchaseItem(unboundOffset));
+            lineItemO.transform.Translate(Vector3.down * 100 * offset);
+
+            ShopLineItemsUI[offset] = lineItemO;
+            offset++;
+        }
+
+        RefreshShopUI();
+    }
+
+    private void RefreshShopUI() 
+    {
+        int offset = 0;
+        foreach (ShopLineItem lineItem in shopItems)
+        {
+            GameObject lineItemO = ShopLineItemsUI[offset];
 
             lineItemO.transform.Find("CostText").GetComponent<TextMeshProUGUI>().text = lineItem.ShopItemProp.CostProp.ToString();
             lineItemO.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = lineItem.ShopItemProp.ItemNameProp;
             lineItemO.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>().text = lineItem.ShopItemProp.ItemDescriptionProp;
             lineItemO.transform.Find("StockText").GetComponent<TextMeshProUGUI>().text = lineItem.AmountLeftProp.ToString();
             //lineItem.transform.Find("ItemImage").GetComponent<Image>().sprite = shopItems[i].getImage();
-
-            lineItemO.transform.Find("BuyButton").gameObject.GetComponent<Button>().onClick.AddListener(() => PurchaseItem(unboundOffset));
-
-            lineItemO.transform.Translate(Vector3.down * 100 * offset);
-
-            ShopLineItemsUI[offset] = lineItemO;
-
-
-
-
 
             //make ui element for line item
             if (!lineItem.IsAvailable())
@@ -152,7 +158,6 @@ public class ShopManager : MonoBehaviour
         if (!shopItems[itemPosition].IsAvailable())
         {
             return false;
-            //disable when you cant buy, perhaps seperate check for out of stock vs not enough tickets
         }
 
         localTickets -= shopItems[itemPosition].Purchase(localTickets);
@@ -161,16 +166,16 @@ public class ShopManager : MonoBehaviour
 
         ticketText.text = "Tickets: " + localTickets.ToString();
 
+        RefreshShopUI();
+
         return true;
     }
 
     private int EndSession()
     {
-        Debug.Log(ShopLineItemsUI.Length);
         foreach (GameObject lineItem in ShopLineItemsUI)
         {
             Destroy(lineItem);
-            Debug.Log(lineItem);
         }
 
         return localTickets;

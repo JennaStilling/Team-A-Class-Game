@@ -1,8 +1,9 @@
+using Observations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EmployeeEnemyManager : MonoBehaviour
+public class EmployeeEnemyManager : MonoBehaviour, IObserver
 {
     [SerializeField] private float _healthpoints = 30f;
     [SerializeField] private GameObject _token; // change comment pt 1 - eventually remove and replace below with asset path
@@ -11,7 +12,8 @@ public class EmployeeEnemyManager : MonoBehaviour
          get { return _maxTokens; }
          set { _maxTokens = value; }
      }
-    
+     
+    private Transform[] _enemiesInScene;
     private int _tokensUponDeath;
     public bool isManager; // keep to have some employees be worth more, like managers? tbd
     private bool _isDead = false;
@@ -45,6 +47,14 @@ public class EmployeeEnemyManager : MonoBehaviour
         {
             _callForHelp = true;
             //NotifyObservers(EnemyAlerts.Help);
+             _enemiesInScene= new Transform[GameObject.Find("SpawnLocation").transform.childCount];
+             GameObject originalGameObject = GameObject.Find("SpawnLocation");
+            
+             for (int i = 0; i < _enemiesInScene.Length; i++)
+             {
+                 _enemiesInScene[i] = originalGameObject.transform.GetChild(i).transform;
+                 _enemiesInScene[i].GetComponent<EmployeeEnemyManager>().isUnderAttack = true;
+             }
         }
         
         _isDead = _healthpoints <= 0;
@@ -64,5 +74,17 @@ public class EmployeeEnemyManager : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    public void OnNotify(EnemyAlerts alert)
+    {
+        if (alert == EnemyAlerts.Help)
+        {
+            isUnderAttack = true;
+        }
+        else
+        {
+            isUnderAttack = false;
+        }
     }
 }
