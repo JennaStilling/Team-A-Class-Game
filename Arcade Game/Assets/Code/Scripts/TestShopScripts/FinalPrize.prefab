@@ -48,4 +48,5 @@ MonoBehaviour:
   _itemImage: {fileID: 0}
   _itemName: Final Prize!
   _itemDescription: Win The Game :D
-  winScreen: {fileID: 0}
+  _isCompoundUpgrade: 0
+  _initialCost: 1000
