@@ -2158,6 +2158,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 509529362813530509, guid: c698071fe8966394cbf509351e7a7eb5, type: 3}
+      propertyPath: respawnPoint
+      value: 
+      objectReference: {fileID: 887303494}
+    - target: {fileID: 509529362813530509, guid: c698071fe8966394cbf509351e7a7eb5, type: 3}
+      propertyPath: blackScreenPanel
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2838672124517036773, guid: c698071fe8966394cbf509351e7a7eb5, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4207,6 +4215,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 867497489}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &887303493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 887303494}
+  m_Layer: 0
+  m_Name: RespawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &887303494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887303493}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.38, y: 0.339, z: -10.13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &899921044
 GameObject:
   m_ObjectHideFlags: 0
@@ -10377,3 +10416,4 @@ SceneRoots:
   - {fileID: 569366811}
   - {fileID: 1134352476}
   - {fileID: 1684647347}
+  - {fileID: 887303494}
