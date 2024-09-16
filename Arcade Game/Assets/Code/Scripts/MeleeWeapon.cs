@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Observations;
 
-public class MeleeWeapon : MonoBehaviour
+public class MeleeWeapon : Subject, PlayerIObserver
 {
     public float swingSpeed = 5f; // Speed of the swing
     public float swingAngle = 60f;  // Maximum angle of the swing
@@ -71,6 +72,11 @@ public class MeleeWeapon : MonoBehaviour
                 returning = false;
             }
         }
+    }
+
+    public void OnNotify(EmployeeEnemyManager enemy)
+    {
+        AddObserver(enemy);
     }
 }
 
