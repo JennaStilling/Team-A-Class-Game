@@ -39,7 +39,13 @@ public class PlayerMovement : MonoBehaviour
     private float rotationX = 0;
 
     private CharacterController characterController;
+    private int currentHealth;              
+    public Transform respawnPoint;         
+    public float respawnDelay = 2f;      
+    public float damageCooldown = 1f;      
 
+    private bool isDead = false;            
+    private bool canTakeDamage = true;      
 
 
     private bool _canMove = true;
@@ -62,6 +68,55 @@ public class PlayerMovement : MonoBehaviour
 
         Cursor.visible = false;
 
+        currentHealth = 100;
+    }
+
+
+    public void TakeDamage(int damage)
+    {
+        if (isDead || !canTakeDamage)
+            return;
+
+        currentHealth -= damage;
+        Debug.Log("Player took damage, current health: " + currentHealth);
+
+        canTakeDamage = false;
+        Invoke("ResetDamageCooldown", damageCooldown);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+     private void ResetDamageCooldown()
+    {
+        canTakeDamage = true;
+    }
+
+    private void Die()
+    {
+        Debug.Log("Player died!");
+        isDead = true;
+
+        Invoke("Respawn", respawnDelay);
+    }
+
+    void Respawn()
+    {
+        currentHealth = 100;
+        isDead = false;
+
+        if (respawnPoint != null)
+        {
+            transform.position = respawnPoint.position;
+            transform.rotation = respawnPoint.rotation;
+            Debug.Log("Player respawned at respawn point: " + respawnPoint.position);
+        }
+        else
+        {
+            Debug.LogError("Respawn point is not assigned!");
+        }
     }
 
 

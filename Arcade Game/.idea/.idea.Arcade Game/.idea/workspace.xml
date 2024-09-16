@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f20aa7d4-3949-4857-8ecc-5508c965c7f1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Scripts/Player_IObserver.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Code/Scripts/Player_IObserver.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/EmployeeEnemyManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/EmployeeEnemyManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/EnemyAlertSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/EnemyAlertSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/MeleeWeapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/MeleeWeapon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/arcadeGame1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/arcadeGame1.unity" afterDir="false" />
-    </list>
+    <list default="true" id="f20aa7d4-3949-4857-8ecc-5508c965c7f1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +32,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "js-enemy-alert-system",
+    "git-widget-placeholder": "health-IsraelReveles",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
