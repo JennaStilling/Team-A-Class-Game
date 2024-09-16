@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int tokenValue = 10; 
+    public int tokenValue = 10;
 
     public delegate void OnValuesChanged();
     public static event OnValuesChanged onValuesChanged;
@@ -51,12 +52,12 @@ public class GameManager : MonoBehaviour
             Debug.Log("Tokens Spent: " + amount + ", Remaining Tokens: " + tokenValue);
 
             onValuesChanged?.Invoke();
-            return true; 
+            return true;
         }
         else
         {
             Debug.Log("Not enough tokens to play.");
-            return false; 
+            return false;
         }
     }
 
@@ -76,5 +77,16 @@ public class GameManager : MonoBehaviour
     public int GetTokenValue()
     {
         return tokenValue;
+    }
+
+    public void StartGame() 
+    {
+        SceneManager.LoadScene("arcadeGame1");
+    }
+
+    public void QuitGame() 
+    {
+        Application.Quit();
+        UnityEditor.EditorApplication.isPlaying = false;
     }
 }
