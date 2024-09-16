@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace Observations
 {
-    public class EnemyAlertSystem : MonoBehaviour, IObserver
+    public class EnemyAlertSystem : Subject
     {
         // where subject is the name of the abstract class!!
         [SerializeField] private Subject _playerSubject;
         private Transform[] _enemiesInScene;
 
-        public void OnNotify(EnemyAlerts alert)
+        public void CallForHelp(EnemyAlerts alert)
         {
             if (alert == EnemyAlerts.Help)
             {
@@ -29,9 +29,11 @@ namespace Observations
             }
         }
 
-        private void OnEnable()
+        protected void NotifyObservers(EmployeeEnemyManager alert)
         {
-            _playerSubject.AddObserver(this);
+            
         }
     }
 }
+
+
