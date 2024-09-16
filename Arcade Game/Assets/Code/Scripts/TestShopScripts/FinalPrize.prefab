@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6154950646107204297}
-  - component: {fileID: 763265359071680499}
+  - component: {fileID: 5252445806733990273}
   m_Layer: 0
-  m_Name: TestUpgradeObject
+  m_Name: FinalPrize
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &763265359071680499
+--- !u!114 &5252445806733990273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,10 +41,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1674721034549600848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 218c5b93523ee554198961893f517d1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 077105bb5428d394cb27c5c3c2f7d06e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cost: 10
+  _cost: 1000
   _itemImage: {fileID: 0}
-  _itemName: Item 1
-  _itemDescription: DESC 1
+  _itemName: Final Prize!
+  _itemDescription: Win The Game :D
+  winScreen: {fileID: 0}

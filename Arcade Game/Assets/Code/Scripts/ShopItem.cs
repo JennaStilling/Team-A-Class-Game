@@ -20,5 +20,18 @@ public abstract class ShopItem : MonoBehaviour
     protected string _itemDescription;
     public string ItemDescriptionProp => _itemDescription;
 
+    [SerializeField]
+    protected bool _isCompoundUpgrade = false;
+    public bool IsCompoundUpgradeProp => _isCompoundUpgrade;
+
+    [SerializeField]
+    protected int _initialCost = 100;
+    public int InitialCostProp => _initialCost;
+
     public abstract void PurchaseEffect(); //could turn this into a list of listeners or something, like how on click works
+
+    public void ResetCost() 
+    {
+        _cost = _initialCost;
+    }
 }
