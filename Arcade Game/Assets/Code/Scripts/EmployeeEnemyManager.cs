@@ -29,7 +29,7 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
         if (_agent == null)
             Debug.Log("Nav mesh agent not found");
         _agent.updateRotation = false;
-        _agent.stoppingDistance = 2f;
+        _agent.stoppingDistance = 0f;
     }
 
     private void Update()
@@ -55,6 +55,7 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
                  _enemiesInScene[i] = originalGameObject.transform.GetChild(i).transform;
                  _enemiesInScene[i].GetComponent<EmployeeEnemyManager>().isUnderAttack = true;
                  _enemiesInScene[i].GetComponent<EmployeeEnemyManager>()._callForHelp = true;
+                 _enemiesInScene[i].GetComponent<NavMeshAgent>().stoppingDistance = 2f;
              }
         }
         
