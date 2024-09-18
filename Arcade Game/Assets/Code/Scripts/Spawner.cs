@@ -19,7 +19,9 @@ public class Spawner : PlayerSubject
     // Start is called before the first frame update
     void Start()
     {
-        _tempWaypoints= new Transform[GameObject.Find("Patrol Path").transform.childCount];
+        _employee.GetComponent<EmployeeEnemyManager>().maxTokensProp = 1;
+
+        _tempWaypoints = new Transform[GameObject.Find("Patrol Path").transform.childCount];
         GameObject originalGameObject = GameObject.Find("Patrol Path");
 
         for (int i = 0; i < _tempWaypoints.Length; i++)
@@ -56,9 +58,18 @@ public class Spawner : PlayerSubject
     public void setMaxCoins(int max)
     {
         _employee.GetComponent<EmployeeEnemyManager>().maxTokensProp = max;
+        foreach (EmployeeEnemyManager enemy in FindObjectsOfType<EmployeeEnemyManager>())
+        {
+            enemy.maxTokensProp = max;
+        }
     }
     public void incrementMaxCoins() 
     {
         _employee.GetComponent<EmployeeEnemyManager>().maxTokensProp++;
+        foreach (EmployeeEnemyManager enemy in FindObjectsOfType<EmployeeEnemyManager>())
+        {
+            enemy.maxTokensProp++;
+        }
+
     }
 }
