@@ -52,4 +52,13 @@ public class Spawner : PlayerSubject
             SpawnEnemy();
         StartCoroutine(HandleSpawnTimer());
     }
+
+    public void setMaxCoins(int max)
+    {
+        _employee.GetComponent<EmployeeEnemyManager>().maxTokensProp = max;
+    }
+    public void incrementMaxCoins() 
+    {
+        _employee.GetComponent<EmployeeEnemyManager>().maxTokensProp++;
+    }
 }

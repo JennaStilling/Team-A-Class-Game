@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6154950646107204297}
   - component: {fileID: 62342768317692889}
   m_Layer: 0
-  m_Name: CoinMultiplierUpgrade
+  m_Name: CoinMultiplierUpgrade 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 676a5a9ffc808bc43a0b59a3cecb507e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cost: 100
+  _cost: 200
   _itemImage: {fileID: 0}
-  _itemName: Chance Coin Multiplier 1
+  _itemName: Chance Coin Multiplier 2
   _itemDescription: Increases the chance of multiple coins dropping from enemies
