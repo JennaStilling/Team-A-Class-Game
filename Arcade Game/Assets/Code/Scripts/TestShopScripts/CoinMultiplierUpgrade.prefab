@@ -46,5 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cost: 100
   _itemImage: {fileID: 0}
-  _itemName: Chance Coin Multiplier 1
+  _itemName: Chance Coin Multiplier
   _itemDescription: Increases the chance of multiple coins dropping from enemies
+  _isCompoundUpgrade: 0
+  _initialCost: 100
+  _employeeEnemyManager: {fileID: 0}
