@@ -11,7 +11,12 @@ public class MeleeWeapon : Subject, PlayerIObserver
     private float currentSwingTime = 0f;
     private Vector3 initialRotation;
     [SerializeField] private float _damage = 10f;
-    
+    public float damageProp
+    {
+        get { return _damage; }
+        set { _damage = value; }
+    }
+
 
     private bool returning = false;
 
