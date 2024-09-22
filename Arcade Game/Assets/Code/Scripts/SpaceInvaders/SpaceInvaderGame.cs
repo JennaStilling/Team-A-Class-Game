@@ -117,8 +117,8 @@ public class SpaceInvadersGame : MonoBehaviour
             Destroy(player);
         }
 
-        player = Instantiate(playerPrefab, gamePanel);
-        player.transform.position = new Vector3(0, -gamePanel.rect.height / 2 + 100, 0);
+        player = Instantiate(playerPrefab); // No need to parent to gamePanel
+        player.transform.position = new Vector3(0, -4, 0); // Set world position
     }
 
     void SpawnEnemies()
@@ -139,16 +139,15 @@ public class SpaceInvadersGame : MonoBehaviour
 
     void HandlePlayerMovement()
     {
-        float move = Input.GetAxis("Horizontal") * playerSpeed * Time.deltaTime;
-        player.transform.position += new Vector3(move, 0, 0);
-
-        float clampedX = Mathf.Clamp(player.transform.position.x, -gamePanel.rect.width / 2 + 50, gamePanel.rect.width / 2 - 50);
+        float screenHalfWidth = Camera.main.orthographicSize * Screen.width / Screen.height;
+        float clampedX = Mathf.Clamp(player.transform.position.x, -screenHalfWidth + 1, screenHalfWidth - 1);
         player.transform.position = new Vector3(clampedX, player.transform.position.y, player.transform.position.z);
+
     }
 
     void ShootBullet()
     {
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity, gamePanel);
+        GameObject bullet = Instantiate(bulletPrefab, player.transform.position + new Vector3(0, 1, 0), Quaternion.identity);
         bullets.Add(bullet);
     }
 
@@ -159,52 +158,73 @@ public class SpaceInvadersGame : MonoBehaviour
             GameObject bullet = bullets[i];
             bullet.transform.position += Vector3.up * bulletSpeed * Time.deltaTime;
 
+            // Remove bullet if it goes off-screen
             if (bullet.transform.position.y > gamePanel.rect.height / 2)
             {
                 Destroy(bullet);
-                bullets.RemoveAt(i);
+                bullets.RemoveAt(i); // Remove from the list and destroy the bullet
+                continue; // Continue to avoid further processing on the removed bullet
             }
 
+            // Check collision with enemies
             foreach (GameObject enemy in enemies)
             {
                 if (Vector3.Distance(bullet.transform.position, enemy.transform.position) < 20f)
                 {
-                    Destroy(bullet);
-                    Destroy(enemy);
-                    bullets.RemoveAt(i);
-                    enemies.Remove(enemy);
-                    score += 10;
-                    UpdateUI();
-                    break;
+                    Destroy(bullet);  // Destroy bullet
+                    Destroy(enemy);   // Destroy enemy
+                    bullets.RemoveAt(i);  // Remove bullet from the list
+                    enemies.Remove(enemy);  // Remove enemy from the list
+                    score += 10;  // Update score
+                    UpdateUI();  // Refresh UI
+                    break;  // Break the loop to avoid further checks for this bullet
                 }
             }
+
+            void OnTriggerEnter2D(Collider2D other)
+            {
+                if (other.gameObject.CompareTag("Bullet"))
+                {
+                    Destroy(other.gameObject); // Destroy bullet
+                    Destroy(gameObject); // Destroy enemy
+                    score += 10;
+                    UpdateUI();
+                }
+            }
+
         }
     }
 
+
+    private float enemyDirection = 1f;
+
     void HandleEnemyMovement()
     {
+        bool changeDirection = false;
+
+        float screenHalfWidth = Camera.main.orthographicSize * Screen.width / Screen.height;
+
         foreach (GameObject enemy in enemies)
         {
-            enemy.transform.position += Vector3.down * enemySpeed * Time.deltaTime;
+            enemy.transform.position += new Vector3(enemySpeed * enemyDirection * Time.deltaTime, 0, 0);
 
-            if (enemy.transform.position.y < -gamePanel.rect.height / 2)
+            if (enemy.transform.position.x > screenHalfWidth || enemy.transform.position.x < -screenHalfWidth)
             {
-                Destroy(enemy);
-                enemies.Remove(enemy);
-                playerLives--;
-                UpdateUI();
-                if (playerLives <= 0)
-                {
-                    EndGame();
-                }
-                break;
+                changeDirection = true;
             }
         }
+        
 
-        if (enemies.Count == 0)
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Bullet"))
         {
-            Debug.Log("You Win! All enemies defeated.");
-            EndGame();
+            Destroy(other.gameObject); // Destroy bullet
+            Destroy(gameObject); // Destroy enemy
+            score += 10;
+            UpdateUI();
         }
     }
 
@@ -213,4 +233,36 @@ public class SpaceInvadersGame : MonoBehaviour
         gameActive = false;
         Debug.Log("Game Over! Final Score: " + score);
     }
+
+    void RestartGame()
+    {
+        // Reset lives, score, and clear all game objects
+        score = 0;
+        playerLives = 3;
+        UpdateUI();
+        ClearEnemies();
+        ClearBullets();
+        CreatePlayer();
+        SpawnEnemies();
+    }
+
+    void ClearEnemies()
+    {
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+        enemies.Clear();
+    }
+
+    void ClearBullets()
+    {
+        foreach (GameObject bullet in bullets)
+        {
+            Destroy(bullet);
+        }
+        bullets.Clear();
+    }
+
+
 }
