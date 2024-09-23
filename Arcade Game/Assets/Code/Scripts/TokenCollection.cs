@@ -6,6 +6,7 @@ using UnityEngine;
 public class TokenCollection : MonoBehaviour
 {
     private GameManager _gameManager;
+    [SerializeField] private AudioSource _tokenCollect;
 
     private void Start()
     {
@@ -16,6 +17,7 @@ public class TokenCollection : MonoBehaviour
         if(other.transform.tag == "token")
         {
             _gameManager.AddTokens(1);
+            _tokenCollect.Play();
             Destroy(other.gameObject);
         }
     }
