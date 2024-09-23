@@ -17,11 +17,6 @@ public class ShopLineItem
     private int _amountLeft;
     public int AmountLeftProp => _amountLeft;
 
-    public void ResetCost() 
-    {
-        _shopItem.ResetCost();
-    }
-
     public ShopLineItem(ShopItem shopItem)
     {
         this._shopItem = shopItem;

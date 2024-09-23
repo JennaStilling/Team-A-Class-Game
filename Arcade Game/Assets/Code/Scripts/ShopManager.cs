@@ -87,11 +87,11 @@ public class ShopManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             TryOpenShop(1000);
         }
-        else if (Input.GetKeyDown(KeyCode.P))
+        else if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Escape))
         {
             if (canvas.gameObject.activeSelf)
             {
