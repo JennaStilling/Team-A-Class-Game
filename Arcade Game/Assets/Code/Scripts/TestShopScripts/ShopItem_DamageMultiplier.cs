@@ -8,6 +8,6 @@ public class ShopItem_DamageMultiplier : ShopItem
     private float damageMultiplier;
     public override void PurchaseEffect()
     {
-        FindObjectOfType<MeleeWeapon>().damageProp *= damageMultiplier;
+        FindObjectOfType<RayCast>().damage *= damageMultiplier;
     }
 }
