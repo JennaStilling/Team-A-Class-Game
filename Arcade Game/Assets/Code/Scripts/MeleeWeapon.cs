@@ -6,12 +6,17 @@ using Observations;
 public class MeleeWeapon : Subject, PlayerIObserver
 {
     public float swingSpeed = 5f; // Speed of the swing
-    public float swingAngle = 60f;  // Maximum angle of the swing
+    public float swingAngle = 160f;  // Maximum angle of the swing
     private bool isSwinging = false;
     private float currentSwingTime = 0f;
     private Vector3 initialRotation;
     [SerializeField] private float _damage = 10f;
-    
+    public float damageProp
+    {
+        get { return _damage; }
+        set { _damage = value; }
+    }
+
 
     private bool returning = false;
 
@@ -51,8 +56,8 @@ public class MeleeWeapon : Subject, PlayerIObserver
 
         if (!returning)
         {
-            float angle = Mathf.Lerp(0, swingAngle, currentSwingTime);
-            transform.localEulerAngles = new Vector3(angle, initialRotation.y, initialRotation.z);
+            float angle = Mathf.Lerp(swingAngle, -swingAngle, currentSwingTime);
+            transform.localEulerAngles = new Vector3(initialRotation.x, initialRotation.y + angle, initialRotation.z);
 
             if (currentSwingTime >= 1f)
             {
@@ -62,8 +67,8 @@ public class MeleeWeapon : Subject, PlayerIObserver
         }
         else
         {
-            float angle = Mathf.Lerp(swingAngle, 0, currentSwingTime);
-            transform.localEulerAngles = new Vector3(angle, initialRotation.y, initialRotation.z);
+            float angle = Mathf.Lerp(-swingAngle, swingAngle, currentSwingTime);
+            transform.localEulerAngles = new Vector3(initialRotation.x, initialRotation.y + angle, initialRotation.z);
 
             if (currentSwingTime >= 1f)
             {

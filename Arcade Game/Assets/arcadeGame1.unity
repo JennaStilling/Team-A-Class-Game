@@ -6342,7 +6342,13 @@ MonoBehaviour:
   - _shopItem: {fileID: 5252445806733990273, guid: 14fe5c3d13519ce42b25f448071113f0, type: 3}
     _isLimited: 1
     _amountLeft: 1
+  - _shopItem: {fileID: -26738984100924772, guid: 1680bf9a5b33a2f42b74a034dcd611ac, type: 3}
+    _isLimited: 1
+    _amountLeft: 1
   - _shopItem: {fileID: 62342768317692889, guid: f1879b32df6115f45a8cf2e2bfad507d, type: 3}
+    _isLimited: 1
+    _amountLeft: 1
+  - _shopItem: {fileID: 5735717944227361373, guid: 64940635447543442899d670cb0e400d, type: 3}
     _isLimited: 1
     _amountLeft: 1
   - _shopItem: {fileID: 62342768317692889, guid: 300ecba915c6cc448923690700300a40, type: 3}
@@ -6351,9 +6357,6 @@ MonoBehaviour:
   - _shopItem: {fileID: 62342768317692889, guid: a8a47787a335f3c47817a5e32a9a459d, type: 3}
     _isLimited: 1
     _amountLeft: 1
-  - _shopItem: {fileID: 763265359071680499, guid: 157fa8b99dc0109418900eeafdb704b7, type: 3}
-    _isLimited: 1
-    _amountLeft: 5
   ticketText: {fileID: 1900273608}
   distance: 8
 --- !u!4 &1496032084
