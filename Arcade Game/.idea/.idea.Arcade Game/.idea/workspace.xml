@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f20aa7d4-3949-4857-8ecc-5508c965c7f1" name="Changes" comment="" />
+    <list default="true" id="f20aa7d4-3949-4857-8ecc-5508c965c7f1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Arcade Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arcade Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/EmployeeEnemyManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/EmployeeEnemyManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/Enemy_AI/EmployeeTasks/BT_EmployeeBT.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/Enemy_AI/EmployeeTasks/BT_EmployeeBT.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/Enemy_AI/EmployeeTasks/BT_EmployeeCheckEnemyInAttackRange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/Enemy_AI/EmployeeTasks/BT_EmployeeCheckEnemyInAttackRange.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/Enemy_AI/EmployeeTasks/BT_EmployeeTaskAttack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/Enemy_AI/EmployeeTasks/BT_EmployeeTaskAttack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/Enemy_AI/EmployeeTasks/BT_EmployeeTaskGoToTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/Enemy_AI/EmployeeTasks/BT_EmployeeTaskGoToTarget.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/PlayerMovement.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,7 +40,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "health-IsraelReveles",
+    "git-widget-placeholder": "js-enemy-hurt-player",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -101,6 +109,7 @@
       <workItem from="1725554644229" duration="2926000" />
       <workItem from="1725633276732" duration="3064000" />
       <workItem from="1726082077303" duration="7487000" />
+      <workItem from="1726765662444" duration="2700000" />
     </task>
     <servers />
   </component>

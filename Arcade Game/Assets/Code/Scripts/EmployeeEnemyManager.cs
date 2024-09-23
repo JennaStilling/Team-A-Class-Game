@@ -12,6 +12,12 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
          get { return _maxTokens; }
          set { _maxTokens = value; }
      }
+
+     [SerializeField] private int _damage = 75;
+     public int damage {
+         get { return _damage; }
+         set { _damage = value; }
+     }
      
     private Transform[] _enemiesInScene;
     private int _tokensUponDeath;
