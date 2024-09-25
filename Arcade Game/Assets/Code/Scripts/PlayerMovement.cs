@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+
 
 
 [RequireComponent(typeof(CharacterController))]
@@ -39,12 +41,21 @@ public class PlayerMovement : MonoBehaviour
     private float rotationX = 0;
 
     private CharacterController characterController;
-    private int currentHealth;              
+    private int currentHealth = 100;  
+    
+    public int CurrentHealthProp 
+    {
+        get { return currentHealth; }
+        set {
+            currentHealth = value;
+        }
+    }
+    
     public Transform respawnPoint;         
     public float respawnDelay = 2f;      
     public float damageCooldown = 1f;      
 
-    private bool isDead = false;            
+    private bool _isDead = false;            
     private bool canTakeDamage = true;      
 
 
@@ -69,12 +80,14 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
 
         currentHealth = 100;
+
+        respawnPoint = transform;
     }
 
 
     public void TakeDamage(int damage)
     {
-        if (isDead || !canTakeDamage)
+        if (_isDead || !canTakeDamage)
             return;
 
         currentHealth -= damage;
@@ -97,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player died!");
-        isDead = true;
+        _isDead = true;
 
         Invoke("Respawn", respawnDelay);
     }
@@ -105,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
     void Respawn()
     {
         currentHealth = 100;
-        isDead = false;
+        _isDead = false;
 
         if (respawnPoint != null)
         {
@@ -117,6 +130,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogError("Respawn point is not assigned!");
         }
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 
