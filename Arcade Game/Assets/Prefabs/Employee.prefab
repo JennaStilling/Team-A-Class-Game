@@ -127,9 +127,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthpoints: 30
   _token: {fileID: 7544935482324101898, guid: acf9fcb3a277c3e4d91997e43bd3c48b, type: 3}
-  _maxTokens: 3
+  _maxTokens: 1
   _hitSound: {fileID: 2654357380133201110}
   _tokenDrop: {fileID: -445180734734594819}
+  _damage: 5
   isManager: 0
   isUnderAttack: 0
 --- !u!114 &-3881278571858931969
@@ -145,6 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

@@ -2,6 +2,12 @@ using Observations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
+using System.Collections.Generic;
+using Observations;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.XR;
 
 public class EmployeeEnemyManager : MonoBehaviour, IObserver
 {
@@ -16,7 +22,7 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
          set { _maxTokens = value; }
      }
 
-     [SerializeField] private int _damage = 75;
+     [SerializeField] private int _damage = 5;
      public int damage {
          get { return _damage; }
          set { _damage = value; }
@@ -29,6 +35,8 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
     private bool _callForHelp = false;
     [SerializeField] public bool isUnderAttack;
     private NavMeshAgent _agent;
+    private float _damageTimer = 5f;
+    private bool _canAttack = true;
 
     private void Awake()
     {
@@ -38,21 +46,23 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
         if (_agent == null)
             Debug.Log("Nav mesh agent not found");
         _agent.updateRotation = false;
-        _agent.stoppingDistance = 0f;
+        _agent.stoppingDistance = 1.5f;
         _hitSound = GetComponent<AudioSource>();
+        
     }
 
     private void Update()
     {
-        //_isDead = _healthpoints <= 0;
-        // if (_isDead) Die();
+        if (Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) <= _agent.stoppingDistance && isUnderAttack && _canAttack)
+        {
+            DealDamage();
+        }
     }
 
     public bool TakeDamage(float amt)
     {
         _healthpoints -= amt;
         isUnderAttack = true;
-        Debug.Log(isUnderAttack);
         PlayAttackSound();
 
         if (!_callForHelp)
@@ -102,8 +112,22 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
 
         return _isDead;
     }
-        
+
+    public void DealDamage()
+    {
+        //Debug.Log("Dealing damage");
+        _canAttack = false;
+        GameObject.Find("Player").GetComponent<PlayerMovement>().TakeDamage(_damage);
+        StartCoroutine(HandleDamageTimer());
+    }
     
+    public IEnumerator HandleDamageTimer()
+    {
+        //yield return new WaitForSeconds(spawnTimer);
+        yield return new WaitForSeconds(_damageTimer);
+        _canAttack = true;
+ 
+    }
 
     private void Die()
     {

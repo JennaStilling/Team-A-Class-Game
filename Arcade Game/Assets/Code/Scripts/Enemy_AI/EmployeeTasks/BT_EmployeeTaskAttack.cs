@@ -18,7 +18,7 @@ public class EmployeeTaskAttack : Node
 
     public EmployeeTaskAttack(Transform transform)
     {
-        Debug.Log("Reached attack task");
+        //Debug.Log("Reached attack task");
         _transform = transform;
     }
 
@@ -32,7 +32,7 @@ public class EmployeeTaskAttack : Node
             _lastTarget = target;
         }
 
-        //Debug.Log("Attacking");
+        Debug.Log("Attacking");
         _attackCounter += Time.deltaTime;
         if (_attackCounter >= _attackTime)
         {

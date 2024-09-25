@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+
 
 
 [RequireComponent(typeof(CharacterController))]
@@ -78,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
 
         currentHealth = 100;
+
+        respawnPoint = transform;
     }
 
 
@@ -126,6 +130,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogError("Respawn point is not assigned!");
         }
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 
