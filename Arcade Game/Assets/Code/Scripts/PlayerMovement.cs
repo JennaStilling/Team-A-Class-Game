@@ -50,8 +50,10 @@ public class PlayerMovement : MonoBehaviour
             currentHealth = value;
         }
     }
-    
-    public Transform respawnPoint;         
+
+    public Vector3 respawnPosition;
+    public Quaternion respawnRotation;
+
     public float respawnDelay = 2f;      
     public float damageCooldown = 1f;      
 
@@ -81,7 +83,8 @@ public class PlayerMovement : MonoBehaviour
 
         currentHealth = 100;
 
-        respawnPoint = transform;
+        respawnPosition = transform.position;
+        respawnRotation = transform.rotation;
     }
 
 
@@ -111,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("Player died!");
         _isDead = true;
-
+        _canMove = false;
         Invoke("Respawn", respawnDelay);
     }
 
@@ -120,18 +123,12 @@ public class PlayerMovement : MonoBehaviour
         currentHealth = 100;
         _isDead = false;
 
-        if (respawnPoint != null)
-        {
-            transform.position = respawnPoint.position;
-            transform.rotation = respawnPoint.rotation;
-            Debug.Log("Player respawned at respawn point: " + respawnPoint.position);
-        }
-        else
-        {
-            Debug.LogError("Respawn point is not assigned!");
-        }
-        
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        characterController.enabled = false;
+        transform.position = respawnPosition;
+        transform.rotation = respawnRotation;
+        characterController.enabled = true;
+
+        _canMove = true;
     }
 
 
@@ -214,13 +211,15 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        characterController.Move(moveDirection * Time.deltaTime);
+        //characterController.Move(moveDirection * Time.deltaTime);
 
 
 
         if (_canMove)
 
         {
+            characterController.Move(moveDirection * Time.deltaTime);
+
 
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
 
@@ -232,7 +231,5 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("moving");
 
         }
-
     }
-
 }
