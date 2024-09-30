@@ -6,41 +6,64 @@ using TMPro;
 
 public class SpaceInvadersGame : MonoBehaviour
 {
-    public GameObject playerPrefab;
-    public GameObject bulletPrefab;
-    public GameObject enemyPrefab;
-    public Transform bulletSpawnPoint;
-    public Transform enemySpawnPoint;
-    public RectTransform gamePanel;
+    [SerializeField] private AudioSource _fireSound;
 
-    public int playerLives = 3;
+    public int TokenCost = 2;
+    public GameObject shipPrefab; // Changed back to GameObject
+    public GameObject bulletPrefab; // Changed back to GameObject
+    public GameObject enemyPrefab;  // Changed back to GameObject
+    public RectTransform bulletSpawnPoint; // Kept as RectTransform
+    public Canvas menuCanvas; // Reference to the Menu Canvas
+    public Canvas minigameCanvas; // Reference to the 2D minigame Canvas
+    public RectTransform minigameZone; // Kept as RectTransform
+
+    
     public int score = 0;
-    public int enemiesPerRow = 5;
-    public int rowsOfEnemies = 3;
-    public float playerSpeed = 5f;
+    public int maxEnemiesOnScreen = 5; // Max enemies on screen at a time
+    public float playerSpeed = 2f;
     public float bulletSpeed = 10f;
-    public float enemySpeed = 2f;
-    public float timeBetweenEnemyRows = 2f;
+    public float enemySpeed = 0.1f;
+    public float spawnDelay = 1f;
+    public float activationRadius = 5f;
 
-    private GameObject player;
-    private List<GameObject> enemies = new List<GameObject>();
-    private List<GameObject> bullets = new List<GameObject>();
+    private RectTransform ship;
+    private List<RectTransform> enemies = new List<RectTransform>();
+    private List<RectTransform> bullets = new List<RectTransform>();
     private bool gameActive = false;
-    private bool isGameActive = false;
     private bool playerInRange = false;
+    private bool movingRight = true; // For enemy movement
 
     private GameObject scoreText;
     private GameObject livesText;
+    private GameObject timerText;
+    public float gameTime = 10f; // 10 seconds game timer
+    private bool timerActive = false;
 
     void Start()
     {
-        isGameActive = false;
-        SetupUI();
+        gameActive = false;
+        //SetupUI();
+
+        menuCanvas.gameObject.SetActive(true);
+        minigameCanvas.gameObject.SetActive(false); // Initially hide the Canvas
+
+        _fireSound = GetComponent<AudioSource>();
+
     }
 
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E) && !isGameActive)
+        // Handle minigame Canvas visibility
+        if (Vector3.Distance(Camera.main.transform.position, minigameZone.position) < activationRadius)
+        {
+            minigameCanvas.gameObject.SetActive(true); // Show the Canvas
+        }
+        else
+        {
+            minigameCanvas.gameObject.SetActive(false); // Hide the Canvas
+        }
+
+        if (playerInRange && Input.GetKeyDown(KeyCode.E) && !gameActive)
         {
             StartGame();
         }
@@ -51,30 +74,46 @@ public class SpaceInvadersGame : MonoBehaviour
             HandleBulletMovement();
             HandleEnemyMovement();
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.J))
             {
                 ShootBullet();
             }
         }
+
+        // Handle the game timer
+        if (timerActive)
+        {
+            gameTime -= Time.deltaTime;
+            if (gameTime <= 0)
+            {
+                timerActive = false;
+                EndGame(); // End the game when the timer hits 0
+            }
+        }
+
     }
 
-    void SetupUI()
-    {
-        CreateUIText(ref scoreText, "Score: " + score, new Vector2(0, 50), Color.white);
-        CreateUIText(ref livesText, "Lives: " + playerLives, new Vector2(0, -50), Color.white);
-    }
+    //void SetupUI()
+    //{
+    //    CreateUIText(ref scoreText, "Score: " + score, new Vector2(0, 0), Color.white);
+    //    CreateUIText(ref timerText, "Time: 10s", new Vector2(0, 3), Color.red);
+
+    //}
 
     void CreateUIText(ref GameObject textObject, string textContent, Vector2 position, Color color)
     {
-        textObject = Instantiate(new GameObject(), gamePanel);
+        textObject = new GameObject("UIText");
+        textObject.transform.SetParent(minigameCanvas.transform);
+
         RectTransform textRect = textObject.AddComponent<RectTransform>();
         TextMeshProUGUI textComponent = textObject.AddComponent<TextMeshProUGUI>();
 
         textComponent.text = textContent;
         textComponent.color = color;
-        textComponent.fontSize = 24;
+        textComponent.fontSize = 0.5f;
 
         textRect.anchoredPosition = position;
+        textRect.sizeDelta = new Vector2(1, 1); // Set a size that fits the text
     }
 
     public void SetPlayerInRange(bool inRange)
@@ -93,61 +132,97 @@ public class SpaceInvadersGame : MonoBehaviour
 
     void StartGame()
     {
+        if (!GameManager.Instance.SpendToken(TokenCost))
+        {
+            Debug.Log("Not enough tokens");
+            return;
+        }
+
+        Debug.Log("Game Started! Tokens Spent: " + TokenCost);
+
+        menuCanvas.gameObject.SetActive(false);
+        minigameCanvas.gameObject.SetActive(true);
+
         gameActive = true;
         score = 0;
-        playerLives = 3;
 
         UpdateUI();
 
-        CreatePlayer();
-        SpawnEnemies();
+        gameTime = 10f; // Reset the game timer
+        timerActive = true; // Activate the timer
+        
+        CreatePlayer(); // This will log the initial position of the ship
+        SpawnEnemy();
     }
-
 
     void UpdateUI()
     {
-        scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + score;
-        livesText.GetComponent<TextMeshProUGUI>().text = "Lives: " + playerLives;
+        if (scoreText != null && livesText != null)
+        {
+            scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + score;  
+        }
+
+        if (timerText != null)
+        {
+            timerText.GetComponent<TextMeshProUGUI>().text = "Time: " + Mathf.CeilToInt(gameTime) + "s";
+        }
     }
 
     void CreatePlayer()
     {
-        if (player != null)
+        if (ship != null)
         {
-            Destroy(player);
+            Destroy(ship.gameObject);
         }
 
-        player = Instantiate(playerPrefab); // No need to parent to gamePanel
-        player.transform.position = new Vector3(0, -4, 0); // Set world position
-    }
+        GameObject playerObject = Instantiate(shipPrefab, minigameCanvas.transform); // Parent to the Canvas
+        ship = playerObject.GetComponent<RectTransform>();
 
-    void SpawnEnemies()
-    {
-        for (int row = 0; row < rowsOfEnemies; row++)
-        {
-            for (int col = 0; col < enemiesPerRow; col++)
-            {
-                GameObject enemy = Instantiate(enemyPrefab, gamePanel);
-                float x = col * 60 - (enemiesPerRow * 30);
-                float y = row * 60 + gamePanel.rect.height / 2 - 100;
+        // Get the screen width and height of the canvas
+        float screenWidth = minigameCanvas.GetComponent<RectTransform>().rect.width;
+        float screenHeight = minigameCanvas.GetComponent<RectTransform>().rect.height;
 
-                enemy.transform.position = new Vector3(x, y, 0);
-                enemies.Add(enemy);
-            }
-        }
+        // Place the ship in the center horizontally and slightly above the bottom vertically
+        ship.anchoredPosition = new Vector2(0, -0.45f * screenHeight);
+        Debug.Log("Ship Spawned at: " + ship.anchoredPosition);
     }
 
     void HandlePlayerMovement()
     {
-        float screenHalfWidth = Camera.main.orthographicSize * Screen.width / Screen.height;
-        float clampedX = Mathf.Clamp(player.transform.position.x, -screenHalfWidth + 1, screenHalfWidth - 1);
-        player.transform.position = new Vector3(clampedX, player.transform.position.y, player.transform.position.z);
+        // Check for player input (K for left, L for right)
+        float movementX = 0;
+        if (Input.GetKey(KeyCode.K)) movementX = -playerSpeed * Time.deltaTime;
+        if (Input.GetKey(KeyCode.L)) movementX = playerSpeed * Time.deltaTime;
 
+        // Move player horizontally, scaled to canvas width
+        RectTransform canvasRect = minigameCanvas.GetComponent<RectTransform>();
+        float canvasWidth = canvasRect.rect.width;
+
+        // Scale the movement by canvas width (to account for smaller screen sizes)
+        float scaledMovementX = movementX * canvasWidth;
+
+        // Move the ship
+        ship.anchoredPosition += new Vector2(scaledMovementX, 0);
+
+        // Clamp the ship's x-position within the left and right bounds of the canvas
+        float clampedX = Mathf.Clamp(ship.anchoredPosition.x, -canvasWidth / 2 + 0.05f, canvasWidth / 2 - 0.05f);
+
+        // Apply the clamped position
+        ship.anchoredPosition = new Vector2(clampedX, ship.anchoredPosition.y);
+
+        // Log the ship's position for debugging
+        Debug.Log("Ship Position After Movement: " + ship.anchoredPosition);
     }
-
     void ShootBullet()
     {
-        GameObject bullet = Instantiate(bulletPrefab, player.transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        GameObject bulletObject = Instantiate(bulletPrefab, minigameCanvas.transform); // Parent to the Canvas
+        RectTransform bullet = bulletObject.GetComponent<RectTransform>();
+
+        PlayFireSound();
+
+        // Spawn the bullet from the current position of the ship
+        bullet.anchoredPosition = new Vector2(ship.anchoredPosition.x, ship.anchoredPosition.y + 0.1f);
+
         bullets.Add(bullet);
     }
 
@@ -155,114 +230,152 @@ public class SpaceInvadersGame : MonoBehaviour
     {
         for (int i = bullets.Count - 1; i >= 0; i--)
         {
-            GameObject bullet = bullets[i];
-            bullet.transform.position += Vector3.up * bulletSpeed * Time.deltaTime;
+            RectTransform bullet = bullets[i];
+            bullet.anchoredPosition += new Vector2(0, bulletSpeed * Time.deltaTime);
 
-            // Remove bullet if it goes off-screen
-            if (bullet.transform.position.y > gamePanel.rect.height / 2)
+            // Check if bullet goes off-screen
+            RectTransform canvasRect = minigameCanvas.GetComponent<RectTransform>();
+            if (bullet.anchoredPosition.y > canvasRect.rect.height / 2)
             {
-                Destroy(bullet);
-                bullets.RemoveAt(i); // Remove from the list and destroy the bullet
-                continue; // Continue to avoid further processing on the removed bullet
+                Destroy(bullet.gameObject);
+                bullets.RemoveAt(i);
+                continue;
             }
 
-            // Check collision with enemies
-            foreach (GameObject enemy in enemies)
+            // Check collision with enemies using rect bounds
+            foreach (RectTransform enemy in enemies)
             {
-                if (Vector3.Distance(bullet.transform.position, enemy.transform.position) < 20f)
+                if (IsRectOverlapping(bullet, enemy))
                 {
-                    Destroy(bullet);  // Destroy bullet
-                    Destroy(enemy);   // Destroy enemy
+                    Destroy(bullet.gameObject);  // Destroy bullet
+                    Destroy(enemy.gameObject);   // Destroy enemy
                     bullets.RemoveAt(i);  // Remove bullet from the list
                     enemies.Remove(enemy);  // Remove enemy from the list
-                    score += 10;  // Update score
+
+                    score += 1;  // Update score
                     UpdateUI();  // Refresh UI
-                    break;  // Break the loop to avoid further checks for this bullet
+
+                    // Respawn a new enemy after one is destroyed
+                    SpawnEnemy();
+                    break;
                 }
             }
-
-            void OnTriggerEnter2D(Collider2D other)
-            {
-                if (other.gameObject.CompareTag("Bullet"))
-                {
-                    Destroy(other.gameObject); // Destroy bullet
-                    Destroy(gameObject); // Destroy enemy
-                    score += 10;
-                    UpdateUI();
-                }
-            }
-
         }
+    }
+    bool IsRectOverlapping(RectTransform rect1, RectTransform rect2)
+    {
+        Vector3[] rect1Corners = new Vector3[4];
+        Vector3[] rect2Corners = new Vector3[4];
+
+        rect1.GetWorldCorners(rect1Corners);
+        rect2.GetWorldCorners(rect2Corners);
+
+        Rect rect1World = new Rect(rect1Corners[0].x, rect1Corners[0].y, rect1.rect.width, rect1.rect.height);
+        Rect rect2World = new Rect(rect2Corners[0].x, rect2Corners[0].y, rect2.rect.width, rect2.rect.height);
+
+        return rect1World.Overlaps(rect2World);
     }
 
 
-    private float enemyDirection = 1f;
+
+    void SpawnEnemy()
+    {
+        int enemiesToSpawn = 2; // Number of enemies to spawn at once
+
+        // Get the width and height of the canvas for spacing calculations
+        float xSpacing = 0.1f * minigameCanvas.GetComponent<RectTransform>().rect.width;
+        float ySpacing = 0.1f * minigameCanvas.GetComponent<RectTransform>().rect.height;
+
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            GameObject enemyObject = Instantiate(enemyPrefab, minigameCanvas.transform); // Parent to the Canvas
+            RectTransform enemy = enemyObject.GetComponent<RectTransform>();
+
+            // Adjust the starting position for each enemy
+            Vector2 startPos = new Vector2(
+                -0.4f * minigameCanvas.GetComponent<RectTransform>().rect.width + (enemies.Count % 4 + i) * xSpacing,
+                0.3f * minigameCanvas.GetComponent<RectTransform>().rect.height - (enemies.Count / 4) * ySpacing
+            );
+
+            enemy.anchoredPosition = startPos;
+            enemies.Add(enemy);
+        }
+    }
 
     void HandleEnemyMovement()
     {
-        bool changeDirection = false;
+        float screenWidth = minigameCanvas.GetComponent<RectTransform>().rect.width;
+        float screenHeight = minigameCanvas.GetComponent<RectTransform>().rect.height;
 
-        float screenHalfWidth = Camera.main.orthographicSize * Screen.width / Screen.height;
-
-        foreach (GameObject enemy in enemies)
+        foreach (RectTransform enemy in enemies)
         {
-            enemy.transform.position += new Vector3(enemySpeed * enemyDirection * Time.deltaTime, 0, 0);
+            if (enemy == null) continue;
 
-            if (enemy.transform.position.x > screenHalfWidth || enemy.transform.position.x < -screenHalfWidth)
+            // Move enemy horizontally
+            enemy.anchoredPosition += new Vector2(enemySpeed * (movingRight ? 1 : -1) * Time.deltaTime, 0);
+
+            // Check for boundary collisions
+            if (enemy.anchoredPosition.x > screenWidth / 2 || enemy.anchoredPosition.x < -screenWidth / 2)
             {
-                changeDirection = true;
+                movingRight = !movingRight; // Reverse direction
+                enemy.anchoredPosition += new Vector2(0, -0.1f * screenHeight); // Move down a row
             }
-        }
-        
 
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            Destroy(other.gameObject); // Destroy bullet
-            Destroy(gameObject); // Destroy enemy
-            score += 10;
-            UpdateUI();
+            // Check for game over condition
+            if (enemy.anchoredPosition.y <= -0.3f * screenHeight)
+            {
+                EndGame();
+                return;
+            }
         }
     }
 
     void EndGame()
     {
         gameActive = false;
-        Debug.Log("Game Over! Final Score: " + score);
+
+        GameManager.Instance.AddTickets(score);
+        Debug.Log("Game Over! Tickets Won: " + score);
+
+        // Clear bullets and enemies
+        ClearBullets();
+        ClearEnemies();
+        ClearPlayer();
+        menuCanvas.gameObject.SetActive(true);
     }
 
-    void RestartGame()
-    {
-        // Reset lives, score, and clear all game objects
-        score = 0;
-        playerLives = 3;
-        UpdateUI();
-        ClearEnemies();
-        ClearBullets();
-        CreatePlayer();
-        SpawnEnemies();
-    }
 
     void ClearEnemies()
     {
-        foreach (GameObject enemy in enemies)
+        foreach (RectTransform enemy in enemies)
         {
-            Destroy(enemy);
+            Destroy(enemy.gameObject);
         }
         enemies.Clear();
     }
 
+    void ClearPlayer()
+    {
+        Destroy(ship.gameObject);
+    }
+
     void ClearBullets()
     {
-        foreach (GameObject bullet in bullets)
+        foreach (RectTransform bullet in bullets)
         {
-            Destroy(bullet);
+            Destroy(bullet.gameObject);
         }
         bullets.Clear();
     }
+
+    private void PlayFireSound()
+    {
+        if (_fireSound != null)
+        {
+            _fireSound.Play(); // Play the assigned audio clip
+        }
+    }
+
 
 
 }
