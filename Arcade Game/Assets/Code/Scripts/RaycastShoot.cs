@@ -12,8 +12,9 @@ public class RayCast : MonoBehaviour
     private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);    
     private AudioSource gunAudio;                                        
     private LineRenderer laserLine;                                        
-    private float nextFire;                                                
+    private float nextFire;
 
+    public bool isRederingLine = false;
 
     void Start () 
     {
@@ -61,8 +62,8 @@ public class RayCast : MonoBehaviour
 
     private IEnumerator ShotEffect()
     {
-       
-       // laserLine.enabled = true;
+       if (isRederingLine)
+            laserLine.enabled = true;
 
         yield return shotDuration;
 

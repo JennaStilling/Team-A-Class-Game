@@ -40,15 +40,15 @@ public class MeleeWeapon : Subject, PlayerIObserver
         }
     }
 
-    void OnTriggerEnter(Collider other){
-        if(isSwinging){
-            if (other.CompareTag("Employee"))
-            {
-                other.GetComponent<EmployeeEnemyManager>().TakeDamage(_damage);
-            }
-        }
-        
-    }
+    // We use raycastshoot for damage now
+    //void OnTriggerEnter(Collider other){
+    //    if(isSwinging){
+    //        if (other.CompareTag("Employee"))
+    //        {
+    //            other.GetComponent<EmployeeEnemyManager>().TakeDamage(_damage);
+    //        }
+    //    }
+    //}
 
     void SwingWeapon()
     {
