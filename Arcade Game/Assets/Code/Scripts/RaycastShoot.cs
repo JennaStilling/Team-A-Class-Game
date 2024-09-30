@@ -15,13 +15,14 @@ public class RayCast : MonoBehaviour
     private float nextFire;
 
     public bool isRederingLine = false;
+    private WeaponManager weaponManager;
 
     void Start () 
     {
         laserLine = GetComponent<LineRenderer>();
-
-
         fpsCam = GetComponentInParent<Camera>();
+
+        weaponManager = FindObjectOfType<WeaponManager>();
     }
 
 
@@ -29,6 +30,15 @@ public class RayCast : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1") && Time.time > nextFire) 
         {
+            if (weaponManager.CurrentWeaponModeProp == WeaponManager.WeaponModes.Blaster)
+            {
+                if (weaponManager.blasterShots <= 0)
+                {
+                    return;
+                }
+                weaponManager.blasterShots--;
+            }
+
             nextFire = Time.time + fireRate;
 
             StartCoroutine (ShotEffect());
@@ -41,8 +51,7 @@ public class RayCast : MonoBehaviour
 
             if (Physics.Raycast (rayOrigin, fpsCam.transform.forward, out hit, weaponRange))
             {
-                laserLine.SetPosition (1, hit.point);
-
+                laserLine.SetPosition(1, hit.point);
                 EmployeeEnemyManager health = hit.collider.GetComponent<EmployeeEnemyManager>();
 
                 if (health != null)
