@@ -9,14 +9,17 @@ public class EmployeeTaskAttack : Node
     private Animator _animator; // tbd - see animation comments below
 
     private Transform _lastTarget;
-    private EnemyManager _enemyManager;
+    private PlayerMovement _enemyManager;
 
     private float _attackTime = 1f;
     private float _attackCounter = 0f;
 
+    private Transform _transform;
+
     public EmployeeTaskAttack(Transform transform)
     {
-        // initialize animator
+        //Debug.Log("Reached attack task");
+        _transform = transform;
     }
 
     public override NodeState Evaluate()
@@ -24,16 +27,27 @@ public class EmployeeTaskAttack : Node
         Transform target = (Transform)GetData("target");
         if (target != _lastTarget)
         {
-            _enemyManager = target.GetComponent<EnemyManager>();
+            _enemyManager = target.GetComponent<PlayerMovement>();
+            Debug.Log(_enemyManager);
             _lastTarget = target;
         }
 
-        //Debug.Log("Attacking");
+        Debug.Log("Attacking");
         _attackCounter += Time.deltaTime;
         if (_attackCounter >= _attackTime)
         {
             // set animation attacking
-            bool enemyIsDead = _enemyManager.TakeDamage();
+            _enemyManager.TakeDamage(_transform.GetComponent<EmployeeEnemyManager>().damage);
+            Debug.Log("Enemy attacking player");
+            bool enemyIsDead;
+
+            if (_enemyManager.CurrentHealthProp <= 0)
+                enemyIsDead = true;
+            else
+            {
+                enemyIsDead = false;
+            }
+            
             if (enemyIsDead)
             {
                 ClearData("target");
