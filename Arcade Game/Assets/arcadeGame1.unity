@@ -4857,6 +4857,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4903300021658301425, guid: bfbedf4492d53ad4489a16cd68deca9f, type: 3}
   m_PrefabInstance: {fileID: 1088166023}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1119487491
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1119487493}
+  - component: {fileID: 1119487492}
+  m_Layer: 0
+  m_Name: WeaponManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1119487492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119487491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406fdf476789d1243b2bf6e609f721e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  types:
+  - damage: 10
+    fireRate: 0.25
+    weaponRange: 3
+  - damage: 9999
+    fireRate: 0
+    weaponRange: 100
+  blasterShots: 3
+  gunUnlocked: 0
+--- !u!4 &1119487493
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119487491}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -25.420029, y: -7.4034605, z: 10.681162}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1125652907
 GameObject:
   m_ObjectHideFlags: 0
@@ -9531,3 +9584,4 @@ SceneRoots:
   - {fileID: 650378168}
   - {fileID: 241045396}
   - {fileID: 668741569}
+  - {fileID: 1119487493}
