@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
     private int _ticketValue = 0;
     public int ticketValueProp
     {
