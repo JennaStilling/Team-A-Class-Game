@@ -6338,6 +6338,9 @@ MonoBehaviour:
   - _shopItem: {fileID: -26738984100924772, guid: 1680bf9a5b33a2f42b74a034dcd611ac, type: 3}
     _isLimited: 1
     _amountLeft: 1
+  - _shopItem: {fileID: 2725329706044127390, guid: 2947ee6a3d6d536409f5fa81d17b8e9a, type: 3}
+    _isLimited: 0
+    _amountLeft: 99
   - _shopItem: {fileID: 62342768317692889, guid: f1879b32df6115f45a8cf2e2bfad507d, type: 3}
     _isLimited: 1
     _amountLeft: 1
@@ -7210,6 +7213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9636299c6c20040ac872684a164a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ticketValue: 10000
   tokenValue: 10
 --- !u!4 &1684647347
 Transform:
