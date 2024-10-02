@@ -9,17 +9,16 @@ public class SpaceInvadersGame : MonoBehaviour
     [SerializeField] private AudioSource _fireSound;
 
     public int TokenCost = 2;
-    public GameObject shipPrefab; // Changed back to GameObject
-    public GameObject bulletPrefab; // Changed back to GameObject
-    public GameObject enemyPrefab;  // Changed back to GameObject
-    public RectTransform bulletSpawnPoint; // Kept as RectTransform
+    public GameObject shipPrefab; 
+    public GameObject bulletPrefab; 
+    public GameObject enemyPrefab;  
+    
     public Canvas menuCanvas; // Reference to the Menu Canvas
     public Canvas minigameCanvas; // Reference to the 2D minigame Canvas
-    public RectTransform minigameZone; // Kept as RectTransform
+    public RectTransform minigameZone;
 
     
     public int score = 0;
-    public int maxEnemiesOnScreen = 5; // Max enemies on screen at a time
     public float playerSpeed = 2f;
     public float bulletSpeed = 10f;
     public float enemySpeed = 0.1f;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - token
   - Employee
+  - Ball
   layers:
   - Default
   - TransparentFX
