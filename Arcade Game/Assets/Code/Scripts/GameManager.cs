@@ -5,13 +5,35 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
     private int _ticketValue = 0;
-    public int ticketValueProp
-    {
+    public int ticketValueProp {
         get { return _ticketValue; }
         set
         {
             _ticketValue = value;
+            onValuesChanged?.Invoke();
+        }
+    }
+    [SerializeField]
+    private int _blasterShots;
+    public int BlasterShotsProp {
+        get { return _blasterShots; }
+        set
+        {
+            _blasterShots = value;
+            onValuesChanged?.Invoke();
+        }
+    }
+
+    //public bool[] weaponUnlocks;
+    [SerializeField]
+    private bool _gunUnlocked;
+    public bool GunUnlockedProp {
+        get { return _gunUnlocked; }
+        set
+        {
+            _gunUnlocked = value;
             onValuesChanged?.Invoke();
         }
     }

@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI tokenText;
     public TextMeshProUGUI ticketText;
+    public TextMeshProUGUI ammoText;
 
     void OnEnable()
     {
@@ -28,5 +29,13 @@ public class UIManager : MonoBehaviour
     {
         tokenText.text = "Tokens: " + GameManager.Instance.GetTokenValue();
         ticketText.text = "Tickets: " + GameManager.Instance.GetTicketValue();
+        if (GameManager.Instance.GunUnlockedProp)
+        {
+            ammoText.text = "Ammo: " + GameManager.Instance.BlasterShotsProp;
+        }
+        else
+        {
+            ammoText.text = "";
+        }
     }
 }
