@@ -16,16 +16,22 @@ public class Pong : MonoBehaviour
     public Canvas menuCanvas; // Reference to the Menu Canvas
     public Canvas minigameCanvas; // Reference to the 2D minigame Canvas
     public RectTransform minigameZone;
+    GameObject currentBall;
 
     public int TokenCost = 2;
     public float paddleSpeed = 2f;
-    private Vector2 ballVelocity = new Vector2(300f, 300f); // Example speed
+    public float enemyPaddleSpeed = 0.5f;
+    private Vector2 ballVelocity = new Vector2(1f, 1f); // Example speed
 
     public float activationRadius = 5f;
     private bool gameActive = false;
     private bool playerInRange = false;
     private GameObject scoreText;
     public int score = 0;
+    private int playerWins = 0;
+    private int enemyWins = 0;
+    private int roundsPlayed = 0;
+    private const int totalRounds = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +65,7 @@ public class Pong : MonoBehaviour
         {
             HandlePlayerMovement();
             HandleEnemyMovement();
-            SpawnPingPong();
+            HandleBallMovement();
 
         }
 
@@ -101,6 +107,7 @@ public class Pong : MonoBehaviour
 
         CreatePlayer(); // This will log the initial position of player paddle
         CreateEnemy();
+        SpawnPingPong();
     }
 
     void UpdateUI()
@@ -115,11 +122,13 @@ public class Pong : MonoBehaviour
     void CreatePlayer()
     {
         float canvasHeight = minigameCanvas.GetComponent<RectTransform>().rect.height;
+        float inset = 0.2f; // The distance you want to move the paddle towards the center
 
         GameObject playerObject = Instantiate(playerPaddlePrefab, minigameCanvas.transform);
         playerPaddle = playerObject.GetComponent<RectTransform>();
-        playerPaddle.anchoredPosition = new Vector2(-minigameCanvas.GetComponent<RectTransform>().rect.width / 2 + playerPaddle.rect.width / 2, 0);
-
+        playerPaddle.anchoredPosition = new Vector2(
+            (minigameCanvas.GetComponent<RectTransform>().rect.width / 2 - playerPaddle.rect.width / 2) - inset, // Move inwards by inset
+            0); // Centered vertically
     }
 
     void HandlePlayerMovement()
@@ -146,30 +155,40 @@ public class Pong : MonoBehaviour
     void CreateEnemy()
     {
         float canvasHeight = minigameCanvas.GetComponent<RectTransform>().rect.height;
+        float inset = 0.2f; // The distance you want to move the paddle towards the center
 
         GameObject enemyObject = Instantiate(EnemyPaddlePrefab, minigameCanvas.transform);
         enemyPaddle = enemyObject.GetComponent<RectTransform>();
-        enemyPaddle.anchoredPosition = new Vector2(minigameCanvas.GetComponent<RectTransform>().rect.width / 2 - enemyPaddle.rect.width / 2, 0); // Enemy on right side
+        enemyPaddle.anchoredPosition = new Vector2(
+            (-minigameCanvas.GetComponent<RectTransform>().rect.width / 2 + enemyPaddle.rect.width / 2) + inset, // Move inwards by inset
+            0); // Centered vertically
     }
 
     void HandleEnemyMovement()
     {
         if (enemyPaddle == null || !gameActive) return;
+        if (currentBall == null) return; // Ensure the ball exists
 
-        GameObject ball = GameObject.FindWithTag("Ball");
-        if (ball == null) return;
-
-        RectTransform ballRect = ball.GetComponent<RectTransform>();
+        RectTransform ballRect = currentBall.GetComponent<RectTransform>();
         float ballY = ballRect.anchoredPosition.y;
 
-        float moveAmount = paddleSpeed * Time.deltaTime;
+        // Delay the enemy movement
+        StartCoroutine(MoveEnemyTowardsBall(ballY));
+    }
 
-        // Move towards the ball's Y position
-        if (enemyPaddle.anchoredPosition.y < ballY) // Move up
+    IEnumerator MoveEnemyTowardsBall(float targetY)
+    {
+        yield return new WaitForSeconds(0.2f); // Introduce a 0.2 second delay (adjust as needed)
+
+        float moveAmount = enemyPaddleSpeed * Time.deltaTime;
+
+
+        // Move towards the target Y position
+        if (enemyPaddle.anchoredPosition.y < targetY) // Move up
         {
             enemyPaddle.anchoredPosition += new Vector2(0, moveAmount);
         }
-        else if (enemyPaddle.anchoredPosition.y > ballY) // Move down
+        else if (enemyPaddle.anchoredPosition.y > targetY) // Move down
         {
             enemyPaddle.anchoredPosition -= new Vector2(0, moveAmount);
         }
@@ -183,32 +202,37 @@ public class Pong : MonoBehaviour
     }
 
 
+
+
     void SpawnPingPong()
     {
-        GameObject ball = Instantiate(pingPongPrefab, minigameCanvas.transform);
-        RectTransform ballRect = ball.GetComponent<RectTransform>();
-        ballRect.anchoredPosition = Vector2.zero; // Center the ball
+        if (currentBall == null) // Check if the ball already exists
+        {
+            currentBall = Instantiate(pingPongPrefab, minigameCanvas.transform);
+            RectTransform ballRect = currentBall.GetComponent<RectTransform>();
+            ballRect.anchoredPosition = Vector2.zero; // Center the ball
+        }
     }
 
     void HandleBallMovement()
     {
         if (!gameActive) return;
 
-        // Assuming ball has been spawned and referenced
         RectTransform ball = GameObject.FindWithTag("Ball").GetComponent<RectTransform>();
 
         // Move the ball
         ball.anchoredPosition += ballVelocity * Time.deltaTime;
 
-        // Check for paddle collisions
         if (CheckCollision(ball, playerPaddle))
         {
             ballVelocity.x = Mathf.Abs(ballVelocity.x); // Bounce to the right
+            ball.anchoredPosition = new Vector2(playerPaddle.anchoredPosition.x + playerPaddle.rect.width / 2 + ball.rect.width / 2, ball.anchoredPosition.y); // Move ball outside the paddle
             PlayHitSound();
         }
         else if (CheckCollision(ball, enemyPaddle))
         {
             ballVelocity.x = -Mathf.Abs(ballVelocity.x); // Bounce to the left
+            ball.anchoredPosition = new Vector2(enemyPaddle.anchoredPosition.x - enemyPaddle.rect.width / 2 - ball.rect.width / 2, ball.anchoredPosition.y); // Move ball outside the paddle
             PlayHitSound();
         }
 
@@ -220,16 +244,33 @@ public class Pong : MonoBehaviour
             PlayHitSound();
         }
 
-        // Check if the ball goes out of bounds (left or right side)
-        float canvasWidth = minigameCanvas.GetComponent<RectTransform>().rect.width;
-        if (ball.anchoredPosition.x + ball.sizeDelta.x / 2 > canvasWidth / 2 || ball.anchoredPosition.x - ball.sizeDelta.x / 2 < -canvasWidth / 2)
-        {
-            score += 10;
-            UpdateUI();
+        // Check for scoring conditions
+        CheckScoring(ball);
+    }
 
-            endGame(); // End the game when the ball goes out of bounds (can add scoring logic)
+    void CheckScoring(RectTransform ball)
+    {
+        float canvasWidth = minigameCanvas.GetComponent<RectTransform>().rect.width;
+
+        // Right side scoring (enemy scores)
+        if (ball.anchoredPosition.x + ball.sizeDelta.x / 2 > canvasWidth / 2 + enemyPaddle.rect.width / 2)
+        {
+            enemyWins++;
+            Debug.Log("Enemy scored!");
+            ResetBall();
+            CheckRoundOutcome();
+        }
+
+        // Left side scoring (player scores)
+        else if (ball.anchoredPosition.x - ball.sizeDelta.x / 2 < -canvasWidth / 2 - playerPaddle.rect.width / 2)
+        {
+            playerWins++;
+            Debug.Log("Player scored!");
+            ResetBall();
+            CheckRoundOutcome();
         }
     }
+
 
     bool CheckCollision(RectTransform ball, RectTransform paddle)
     {
@@ -250,9 +291,57 @@ public class Pong : MonoBehaviour
         float paddleTop = paddlePos.y + paddleSize.y / 2;
         float paddleBottom = paddlePos.y - paddleSize.y / 2;
 
-        // Check if the rectangles overlap (collision detection)
-        return (ballRight > paddleLeft && ballLeft < paddleRight &&
-                ballTop > paddleBottom && ballBottom < paddleTop);
+        bool isColliding = (ballRight > paddleLeft && ballLeft < paddleRight &&
+                        ballTop > paddleBottom && ballBottom < paddleTop);
+
+        if (isColliding)
+        {
+            Debug.Log("Collision detected between ball and paddle!");
+        }
+
+        return isColliding;
+    }
+
+    void ResetBall()
+    {
+        RectTransform ball = GameObject.FindWithTag("Ball").GetComponent<RectTransform>();
+        ball.anchoredPosition = Vector2.zero; // Center the ball
+
+        // Give the ball a random direction but normalize the velocity for consistent speed
+        Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+        ballVelocity = randomDirection * 1f; // Adjust the speed as necessary
+
+    }
+
+    void CheckRoundOutcome()
+    {
+        if (playerWins >= 2)
+        {
+            Debug.Log("Player wins the game!");
+            score = 20;
+            endGame();
+        }
+        else if (enemyWins >= 2)
+        {
+            Debug.Log("Enemy wins the game. Player loses.");
+            score = 0; // Set player score to 0
+            endGame();
+        }
+        else if (roundsPlayed >= totalRounds)
+        {
+            // Game ends after 3 rounds
+            if (playerWins > enemyWins)
+            {
+                Debug.Log("Player wins the game!");
+                score = 20;
+            }
+            else
+            {
+                Debug.Log("Enemy wins the game. Player loses.");
+                score = 0;
+            }
+            endGame();
+        }
     }
 
 
@@ -260,11 +349,42 @@ public class Pong : MonoBehaviour
     {
         gameActive = false;
 
+        StopAllCoroutines();
+
         GameManager.Instance.AddTickets(score);
         Debug.Log("Game Over! Tickets Won: " + score);
+        //ResetBall();
+        ClearPaddles();
+        ClearBall();
+        playerWins = 0;
+        enemyWins = 0;
 
         menuCanvas.gameObject.SetActive(true);
         minigameCanvas.gameObject.SetActive(false);
+    }
+    
+    void ClearPaddles()
+    {
+        if (playerPaddle != null)
+        {
+            Destroy(playerPaddle.gameObject); // Destroy player paddle
+            playerPaddle = null; // Clear the reference
+        }
+
+        if (enemyPaddle != null)
+        {
+            Destroy(enemyPaddle.gameObject); // Destroy enemy paddle
+            enemyPaddle = null; // Clear the reference
+        }
+    }
+
+    void ClearBall()
+    {
+        if (currentBall != null)
+        {
+            Destroy(currentBall); // Destroy the ball
+            currentBall = null; // Clear the reference
+        }
     }
 
     private void PlayHitSound()
