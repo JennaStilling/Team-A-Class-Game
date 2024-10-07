@@ -8,6 +8,6 @@ public class ShopItem_Ammo : ShopItem
     private int refillAmount;
     public override void PurchaseEffect()
     {
-        FindObjectOfType<WeaponManager>().blasterShots += refillAmount;
+        GameManager.Instance.BlasterShotsProp += refillAmount;
     }
 }

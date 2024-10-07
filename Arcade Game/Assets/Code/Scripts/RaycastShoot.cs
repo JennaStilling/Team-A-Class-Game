@@ -32,11 +32,11 @@ public class RayCast : MonoBehaviour
         {
             if (weaponManager.CurrentWeaponModeProp == WeaponManager.WeaponModes.Blaster)
             {
-                if (weaponManager.blasterShots <= 0)
+                if (GameManager.Instance.BlasterShotsProp <= 0)
                 {
                     return;
                 }
-                weaponManager.blasterShots--;
+                GameManager.Instance.BlasterShotsProp--;
             }
 
             nextFire = Time.time + fireRate;
