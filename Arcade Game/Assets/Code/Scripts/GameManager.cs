@@ -16,6 +16,30 @@ public class GameManager : MonoBehaviour
             onValuesChanged?.Invoke();
         }
     }
+    [SerializeField]
+    private int _blasterShots;
+    public int BlasterShotsProp
+    {
+        get { return _blasterShots; }
+        set
+        {
+            _blasterShots = value;
+            onValuesChanged?.Invoke();
+        }
+    }
+
+    //public bool[] weaponUnlocks;
+    [SerializeField]
+    private bool _blasterUnlocked;
+    public bool BlasterUnlockedProp
+    {
+        get { return _blasterUnlocked; }
+        set
+        {
+            _blasterUnlocked = value;
+            onValuesChanged?.Invoke();
+        }
+    }
 
     public int tokenValue = 10;
 

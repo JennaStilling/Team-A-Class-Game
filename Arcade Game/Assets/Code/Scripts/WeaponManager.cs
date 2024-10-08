@@ -28,10 +28,6 @@ public class WeaponManager : MonoBehaviour
     }
 
     private RayCast playerRaycast;
-    public int blasterShots = 3;
-
-    //public bool[] weaponUnlocks;
-    public bool gunUnlocked = true;
 
     private void changeMode(WeaponModes mode) 
     {
@@ -61,7 +57,7 @@ public class WeaponManager : MonoBehaviour
 
     private void Update()
     {
-        if (gunUnlocked && Input.GetKeyDown(KeyCode.Alpha2))
+        if (GameManager.Instance.BlasterUnlockedProp && Input.GetKeyDown(KeyCode.Alpha2))
         {
 
             CurrentWeaponModeProp = WeaponModes.Blaster;
