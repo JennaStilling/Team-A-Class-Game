@@ -20,19 +20,26 @@ public class MeleeWeapon : Subject, PlayerIObserver
 
     private bool returning = false;
 
+    PlayerMovement playerMovement;
+
     void Start()
     {
         initialRotation = transform.localEulerAngles;
+        playerMovement = FindObjectOfType<PlayerMovement>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isSwinging)
+        if (playerMovement.CanMoveProp)
         {
-            isSwinging = true;
-            returning = false;
-            currentSwingTime = 0f;
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !isSwinging)
+            {
+                isSwinging = true;
+                returning = false;
+                currentSwingTime = 0f;
+            }
         }
+        
 
         if (isSwinging)
         {
