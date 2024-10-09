@@ -16,11 +16,11 @@ public class Pong : MonoBehaviour
     public Canvas menuCanvas; // Reference to the Menu Canvas
     public Canvas minigameCanvas; // Reference to the 2D minigame Canvas
     public RectTransform minigameZone;
-    GameObject currentBall;
+    private GameObject currentBall;
 
     public int TokenCost = 2;
     public float paddleSpeed = 2f;
-    public float enemyPaddleSpeed = 0.5f;
+    public float enemyPaddleSpeed = 1f;
     private Vector2 ballVelocity = new Vector2(1f, 1f); // Example speed
 
     public float activationRadius = 5f;
@@ -33,14 +33,11 @@ public class Pong : MonoBehaviour
     private int roundsPlayed = 0;
     private const int totalRounds = 3;
 
-    // Start is called before the first frame update
     void Start()
     {
         gameActive = false;
-
         menuCanvas.gameObject.SetActive(true);
         minigameCanvas.gameObject.SetActive(false);
-
         _pongHitSound = GetComponent<AudioSource>();
     }
 
@@ -66,25 +63,13 @@ public class Pong : MonoBehaviour
             HandlePlayerMovement();
             HandleEnemyMovement();
             HandleBallMovement();
-
         }
-
-        
-
     }
 
     public void SetPlayerInRange(bool inRange)
     {
         playerInRange = inRange;
-
-        if (playerInRange)
-        {
-            Debug.Log("Player is near the machine. Press 'E' to start.");
-        }
-        else
-        {
-            Debug.Log("Player left the machine area.");
-        }
+        Debug.Log(playerInRange ? "Player is near the machine. Press 'E' to start." : "Player left the machine area.");
     }
 
     void StartGame()
@@ -96,16 +81,14 @@ public class Pong : MonoBehaviour
         }
 
         Debug.Log("Game Started! Tokens Spent: " + TokenCost);
-
         menuCanvas.gameObject.SetActive(false);
         minigameCanvas.gameObject.SetActive(true);
-
         gameActive = true;
 
+        roundsPlayed = 0;
+        score = 0;
         UpdateUI();
-
-
-        CreatePlayer(); // This will log the initial position of player paddle
+        CreatePlayer();
         CreateEnemy();
         SpawnPingPong();
     }
@@ -118,17 +101,16 @@ public class Pong : MonoBehaviour
         }
     }
 
-
     void CreatePlayer()
     {
         float canvasHeight = minigameCanvas.GetComponent<RectTransform>().rect.height;
-        float inset = 0.2f; // The distance you want to move the paddle towards the center
+        float inset = 0.15f;
 
         GameObject playerObject = Instantiate(playerPaddlePrefab, minigameCanvas.transform);
         playerPaddle = playerObject.GetComponent<RectTransform>();
         playerPaddle.anchoredPosition = new Vector2(
-            (minigameCanvas.GetComponent<RectTransform>().rect.width / 2 - playerPaddle.rect.width / 2) - inset, // Move inwards by inset
-            0); // Centered vertically
+            (minigameCanvas.GetComponent<RectTransform>().rect.width / 2 - playerPaddle.rect.width / 2) - inset,
+            0);
     }
 
     void HandlePlayerMovement()
@@ -155,13 +137,13 @@ public class Pong : MonoBehaviour
     void CreateEnemy()
     {
         float canvasHeight = minigameCanvas.GetComponent<RectTransform>().rect.height;
-        float inset = 0.2f; // The distance you want to move the paddle towards the center
+        float inset = 0.15f;
 
         GameObject enemyObject = Instantiate(EnemyPaddlePrefab, minigameCanvas.transform);
         enemyPaddle = enemyObject.GetComponent<RectTransform>();
         enemyPaddle.anchoredPosition = new Vector2(
-            (-minigameCanvas.GetComponent<RectTransform>().rect.width / 2 + enemyPaddle.rect.width / 2) + inset, // Move inwards by inset
-            0); // Centered vertically
+            (-minigameCanvas.GetComponent<RectTransform>().rect.width / 2 + enemyPaddle.rect.width / 2) + inset,
+            0);
     }
 
     void HandleEnemyMovement()
@@ -178,10 +160,9 @@ public class Pong : MonoBehaviour
 
     IEnumerator MoveEnemyTowardsBall(float targetY)
     {
-        yield return new WaitForSeconds(0.2f); // Introduce a 0.2 second delay (adjust as needed)
+        yield return new WaitForSeconds(0.5f); // Delay
 
         float moveAmount = enemyPaddleSpeed * Time.deltaTime;
-
 
         // Move towards the target Y position
         if (enemyPaddle.anchoredPosition.y < targetY) // Move up
@@ -201,9 +182,6 @@ public class Pong : MonoBehaviour
         );
     }
 
-
-
-
     void SpawnPingPong()
     {
         if (currentBall == null) // Check if the ball already exists
@@ -211,28 +189,39 @@ public class Pong : MonoBehaviour
             currentBall = Instantiate(pingPongPrefab, minigameCanvas.transform);
             RectTransform ballRect = currentBall.GetComponent<RectTransform>();
             ballRect.anchoredPosition = Vector2.zero; // Center the ball
+
+            // Set a random direction for the ball
+            ballVelocity = GetRandomBallVelocity();
         }
     }
 
+    private Vector2 GetRandomBallVelocity()
+    {
+        // Randomize the angle between -45 and 45 degrees for a more diagonal movement
+        float angle = Random.Range(-45f, 45f);
+
+        // Calculate the velocity components based on the angle
+        float x = Mathf.Cos(angle * Mathf.Deg2Rad);
+        float y = Mathf.Sin(angle * Mathf.Deg2Rad);
+
+        // Normalize the vector and scale it by desired speed
+        return new Vector2(x, y).normalized * 0.8f; // Adjust the speed (1f) as needed
+    }
+
+
     void HandleBallMovement()
     {
-        if (!gameActive) return;
+        if (!gameActive || currentBall == null) return;
 
-        RectTransform ball = GameObject.FindWithTag("Ball").GetComponent<RectTransform>();
+        RectTransform ball = currentBall.GetComponent<RectTransform>();
 
         // Move the ball
         ball.anchoredPosition += ballVelocity * Time.deltaTime;
 
-        if (CheckCollision(ball, playerPaddle))
+        // Check for paddle collisions
+        if (CheckPaddleCollision(ball, playerPaddle) || CheckPaddleCollision(ball, enemyPaddle))
         {
-            ballVelocity.x = Mathf.Abs(ballVelocity.x); // Bounce to the right
-            ball.anchoredPosition = new Vector2(playerPaddle.anchoredPosition.x + playerPaddle.rect.width / 2 + ball.rect.width / 2, ball.anchoredPosition.y); // Move ball outside the paddle
-            PlayHitSound();
-        }
-        else if (CheckCollision(ball, enemyPaddle))
-        {
-            ballVelocity.x = -Mathf.Abs(ballVelocity.x); // Bounce to the left
-            ball.anchoredPosition = new Vector2(enemyPaddle.anchoredPosition.x - enemyPaddle.rect.width / 2 - ball.rect.width / 2, ball.anchoredPosition.y); // Move ball outside the paddle
+            ballVelocity.x = -ballVelocity.x; // Reverse X direction on paddle hit
             PlayHitSound();
         }
 
@@ -244,12 +233,7 @@ public class Pong : MonoBehaviour
             PlayHitSound();
         }
 
-        // Check for scoring conditions
-        CheckScoring(ball);
-    }
-
-    void CheckScoring(RectTransform ball)
-    {
+        // Check for scoring
         float canvasWidth = minigameCanvas.GetComponent<RectTransform>().rect.width;
 
         // Right side scoring (enemy scores)
@@ -260,92 +244,68 @@ public class Pong : MonoBehaviour
             ResetBall();
             CheckRoundOutcome();
         }
-
         // Left side scoring (player scores)
         else if (ball.anchoredPosition.x - ball.sizeDelta.x / 2 < -canvasWidth / 2 - playerPaddle.rect.width / 2)
         {
             playerWins++;
+            score += 10;
             Debug.Log("Player scored!");
             ResetBall();
             CheckRoundOutcome();
         }
     }
 
-
-    bool CheckCollision(RectTransform ball, RectTransform paddle)
+    bool CheckPaddleCollision(RectTransform ball, RectTransform paddle)
     {
+        // Calculate the bounds for the ball
         Vector2 ballPos = ball.anchoredPosition;
+        Vector2 ballHalfSize = ball.sizeDelta / 2;
+
+        // Calculate the bounds for the paddle
         Vector2 paddlePos = paddle.anchoredPosition;
+        Vector2 paddleHalfSize = paddle.sizeDelta / 2;
 
-        Vector2 ballSize = ball.sizeDelta;
-        Vector2 paddleSize = paddle.sizeDelta;
-
-        // Calculate the bounds of the ball and paddle
-        float ballLeft = ballPos.x - ballSize.x / 2;
-        float ballRight = ballPos.x + ballSize.x / 2;
-        float ballTop = ballPos.y + ballSize.y / 2;
-        float ballBottom = ballPos.y - ballSize.y / 2;
-
-        float paddleLeft = paddlePos.x - paddleSize.x / 2;
-        float paddleRight = paddlePos.x + paddleSize.x / 2;
-        float paddleTop = paddlePos.y + paddleSize.y / 2;
-        float paddleBottom = paddlePos.y - paddleSize.y / 2;
-
-        bool isColliding = (ballRight > paddleLeft && ballLeft < paddleRight &&
-                        ballTop > paddleBottom && ballBottom < paddleTop);
-
-        if (isColliding)
-        {
-            Debug.Log("Collision detected between ball and paddle!");
-        }
-
-        return isColliding;
+        // Check for overlap
+        return (ballPos.x + ballHalfSize.x > paddlePos.x - paddleHalfSize.x &&
+                ballPos.x - ballHalfSize.x < paddlePos.x + paddleHalfSize.x &&
+                ballPos.y + ballHalfSize.y > paddlePos.y - paddleHalfSize.y &&
+                ballPos.y - ballHalfSize.y < paddlePos.y + paddleHalfSize.y);
     }
 
     void ResetBall()
     {
-        RectTransform ball = GameObject.FindWithTag("Ball").GetComponent<RectTransform>();
-        ball.anchoredPosition = Vector2.zero; // Center the ball
+        if (currentBall != null)
+        {
+            Destroy(currentBall); // Destroy the ball
+            currentBall = null; // Reset current ball reference
+        }
+        SpawnPingPong(); // Spawn a new ball
+    }
 
-        // Give the ball a random direction but normalize the velocity for consistent speed
-        Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-        ballVelocity = randomDirection * 1f; // Adjust the speed as necessary
-
+    void PlayHitSound()
+    {
+        if (_pongHitSound != null)
+        {
+            _pongHitSound.Play();
+        }
     }
 
     void CheckRoundOutcome()
     {
-        if (playerWins >= 2)
+        roundsPlayed++;
+        if (roundsPlayed >= totalRounds)
         {
-            Debug.Log("Player wins the game!");
-            score = 20;
-            endGame();
+            // End the game and determine winner
+            EndGame();
         }
-        else if (enemyWins >= 2)
+        else
         {
-            Debug.Log("Enemy wins the game. Player loses.");
-            score = 0; // Set player score to 0
-            endGame();
-        }
-        else if (roundsPlayed >= totalRounds)
-        {
-            // Game ends after 3 rounds
-            if (playerWins > enemyWins)
-            {
-                Debug.Log("Player wins the game!");
-                score = 20;
-            }
-            else
-            {
-                Debug.Log("Enemy wins the game. Player loses.");
-                score = 0;
-            }
-            endGame();
+            // Prepare for the next round
+            ResetBall();
         }
     }
 
-
-    void endGame()
+    void EndGame()
     {
         gameActive = false;
 
@@ -353,16 +313,25 @@ public class Pong : MonoBehaviour
 
         GameManager.Instance.AddTickets(score);
         Debug.Log("Game Over! Tickets Won: " + score);
-        //ResetBall();
-        ClearPaddles();
-        ClearBall();
+        
         playerWins = 0;
         enemyWins = 0;
+        ClearBall();
+        ClearPaddles();
 
         menuCanvas.gameObject.SetActive(true);
         minigameCanvas.gameObject.SetActive(false);
     }
-    
+
+    void ClearBall()
+    {
+        if (currentBall != null)
+        {
+            Destroy(currentBall); // Destroy the ball
+            currentBall = null; // Clear the reference
+        }
+    }
+
     void ClearPaddles()
     {
         if (playerPaddle != null)
@@ -378,21 +347,5 @@ public class Pong : MonoBehaviour
         }
     }
 
-    void ClearBall()
-    {
-        if (currentBall != null)
-        {
-            Destroy(currentBall); // Destroy the ball
-            currentBall = null; // Clear the reference
-        }
-    }
-
-    private void PlayHitSound()
-    {
-        if (_pongHitSound != null)
-        {
-            _pongHitSound.Play();
-        }
-    }
 
 }
