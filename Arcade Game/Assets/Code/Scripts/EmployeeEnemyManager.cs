@@ -143,9 +143,18 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
         {
             Instantiate(_token, transform.position,
                 transform.rotation); // change comment pt 2 - will eventually find path to prefab
-        }
+        }        
+    }
 
-        
+    public void Kill()
+    {
+        if (_hitSound != null && !_hitSound.isPlaying)
+        {
+            _hitSound.Play(); // Play death sound
+        }
+        Destroy(gameObject, _hitSound.clip.length); // Delay destruction until sound finishes
+        _agent.speed = 0;
+        Die();
     }
 
     public void OnNotify(EnemyAlerts alert)
