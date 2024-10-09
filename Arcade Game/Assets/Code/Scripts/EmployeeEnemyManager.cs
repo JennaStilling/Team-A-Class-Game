@@ -37,6 +37,7 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
     private NavMeshAgent _agent;
     private float _damageTimer = 5f;
     private bool _canAttack = true;
+    private bool _droppedCoins = false;
 
     private void Awake()
     {
@@ -82,27 +83,13 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
         }
         
         _isDead = _healthpoints <= 0;
-        if (_isDead)
+        if (_isDead && !_droppedCoins)
         {
+            _agent.speed = 0;
             // Play death sound only if the employee has just died
             if (_hitSound != null && !_hitSound.isPlaying)
             {
                 _hitSound.Play(); // Play death sound
-            }
-
-            // Ensure tokens are dropped only once
-            if (_tokensUponDeath == 0) // Only drop tokens if this is the first time dying
-            {
-                _tokensUponDeath = Random.Range(1, _maxTokens);
-                if (isManager)
-                {
-                    _tokensUponDeath *= 2;
-                }
-
-                for (int i = 0; i < _tokensUponDeath; i++)
-                {
-                    Instantiate(_token, transform.position, transform.rotation);
-                }
             }
 
             Destroy(gameObject, _hitSound.clip.length); // Delay destruction until sound finishes
@@ -113,6 +100,10 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
         return _isDead;
     }
 
+    public bool IsDead()
+    {
+        return _isDead;
+    }
     public void DealDamage()
     {
         //Debug.Log("Dealing damage");
@@ -144,8 +135,7 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
             Instantiate(_token, transform.position,
                 transform.rotation); // change comment pt 2 - will eventually find path to prefab
         }
-
-        
+        _droppedCoins = true;
     }
 
     public void OnNotify(EnemyAlerts alert)
