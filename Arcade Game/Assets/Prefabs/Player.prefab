@@ -76,16 +76,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 6140443589144828321}
-  walkSpeed: 50
-  runSpeed: 12
-  jumpPower: 7
-  gravity: 10
+  walkSpeed: 25
+  runSpeed: 4
+  jumpPower: 5
+  gravity: 8
   lookSpeed: 2
   lookXLimit: 45
   defaultHeight: 2
   crouchHeight: 1
   crouchSpeed: 3
-  respawnPoint: {fileID: 0}
+  respawnPosition: {x: 0, y: 0, z: 0}
+  respawnRotation: {x: 0, y: 0, z: 0, w: 0}
   respawnDelay: 2
   damageCooldown: 1
 --- !u!114 &7401316972721118510
@@ -502,6 +503,7 @@ MonoBehaviour:
   fireRate: 0.25
   weaponRange: 3
   gunEnd: {fileID: 5914727154350183803}
+  isRederingLine: 0
 --- !u!1 &7831344508904119470
 GameObject:
   m_ObjectHideFlags: 0
