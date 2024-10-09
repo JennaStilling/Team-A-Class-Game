@@ -84,6 +84,7 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
         _isDead = _healthpoints <= 0;
         if (_isDead)
         {
+            _agent.speed = 0;
             // Play death sound only if the employee has just died
             if (_hitSound != null && !_hitSound.isPlaying)
             {

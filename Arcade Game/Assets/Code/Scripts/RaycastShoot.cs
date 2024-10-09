@@ -56,7 +56,7 @@ public class RayCast : MonoBehaviour
 
                 if (health != null)
                 {
-                    health.Kill();
+                    health.TakeDamage(damage);
                 }
 
                
