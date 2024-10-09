@@ -20,16 +20,18 @@ public class MeleeWeapon : Subject, PlayerIObserver
     private bool returning = false;
 
     private WeaponManager weaponManager;      // Reference to the WeaponManager to check the current weapon mode
+    private PlayerMovement playerMovement;     
 
     void Start()
     {
         initialRotation = transform.localEulerAngles;
         weaponManager = FindObjectOfType<WeaponManager>();
+        playerMovement = FindObjectOfType<PlayerMovement>();
     }
 
     void Update()
     {
-        if (weaponManager.CurrentWeaponModeProp == WeaponManager.WeaponModes.Sword)
+        if (playerMovement.CanMoveProp && weaponManager.CurrentWeaponModeProp == WeaponManager.WeaponModes.Sword)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0) && !isSwinging)
             {

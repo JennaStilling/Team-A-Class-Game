@@ -209,16 +209,11 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-
-
-        //characterController.Move(moveDirection * Time.deltaTime);
-
-
+        characterController.Move(moveDirection * Time.deltaTime);
 
         if (_canMove)
 
-        {
-            characterController.Move(moveDirection * Time.deltaTime);
+        {    
 
 
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
