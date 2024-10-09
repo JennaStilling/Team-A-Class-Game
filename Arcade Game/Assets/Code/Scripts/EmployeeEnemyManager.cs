@@ -134,7 +134,8 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
         {
             Instantiate(_token, transform.position,
                 transform.rotation); // change comment pt 2 - will eventually find path to prefab
-        }        
+        }
+        _droppedCoins = true;
     }
 
     public void OnNotify(EnemyAlerts alert)
