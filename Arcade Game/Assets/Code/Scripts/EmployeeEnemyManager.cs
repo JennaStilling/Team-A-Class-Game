@@ -147,17 +147,6 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
         }        
     }
 
-    public void Kill()
-    {
-        if (_hitSound != null && !_hitSound.isPlaying)
-        {
-            _hitSound.Play(); // Play death sound
-        }
-        Destroy(gameObject, _hitSound.clip.length); // Delay destruction until sound finishes
-        _agent.speed = 0;
-        Die();
-    }
-
     public void OnNotify(EnemyAlerts alert)
     {
         if (alert == EnemyAlerts.Help)
