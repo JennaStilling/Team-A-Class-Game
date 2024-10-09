@@ -92,19 +92,6 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
                 _hitSound.Play(); // Play death sound
             }
 
-            // Ensure tokens are dropped only once
-            if (_tokensUponDeath == 0 && !_droppedCoins) // Only drop tokens if this is the first time dying
-            {
-                _tokensUponDeath = Random.Range(1, _maxTokens);
-
-                for (int i = 0; i < _tokensUponDeath; i++)
-                {
-                    Instantiate(_token, transform.position, transform.rotation);
-                }
-
-                _droppedCoins = true;
-            }
-
             Destroy(gameObject, _hitSound.clip.length); // Delay destruction until sound finishes
             _tokenDrop.Play();
             Die();
