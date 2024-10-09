@@ -16,13 +16,13 @@ public class PlayerMovement : MonoBehaviour
 
     public Camera playerCamera;
 
-    public float walkSpeed = 6f;
+    public float walkSpeed = 4f;
 
-    public float runSpeed = 12f;
+    public float runSpeed = 6f;
 
-    public float jumpPower = 7f;
+    public float jumpPower = 5f;
 
-    public float gravity = 10f;
+    public float gravity = 8f;
 
     public float lookSpeed = 2f;
 
@@ -203,9 +203,9 @@ public class PlayerMovement : MonoBehaviour
 
             characterController.height = defaultHeight;
 
-            walkSpeed = 6f;
+            walkSpeed = 4f;
 
-            runSpeed = 12f;
+            runSpeed = 6f;
 
         }
 
