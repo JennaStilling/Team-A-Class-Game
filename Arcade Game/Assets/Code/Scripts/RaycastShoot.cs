@@ -37,37 +37,11 @@ public class RayCast : MonoBehaviour
             {
                 if (weaponManager.CurrentWeaponModeProp == WeaponManager.WeaponModes.Blaster)
                 {
-<<<<<<< Updated upstream
                     if (GameManager.Instance.BlasterShotsProp <= 0)
                     {
                         return;
                     }
                     GameManager.Instance.BlasterShotsProp--;
-=======
-                    return;
-                }
-                GameManager.Instance.BlasterShotsProp--;
-            }
-
-            nextFire = Time.time + fireRate;
-
-            StartCoroutine (ShotEffect());
-
-            Vector3 rayOrigin = fpsCam.ViewportToWorldPoint (new Vector3(0.5f, 0.5f, 0.0f));
-
-            RaycastHit hit;
-
-            laserLine.SetPosition (0, gunEnd.position);
-
-            if (Physics.Raycast (rayOrigin, fpsCam.transform.forward, out hit, weaponRange))
-            {
-                laserLine.SetPosition(1, hit.point);
-                EmployeeEnemyManager health = hit.collider.GetComponent<EmployeeEnemyManager>();
-
-                if (health !=  null && !health.IsDead())
-                {
-                    health.TakeDamage(damage);
->>>>>>> Stashed changes
                 }
 
                 nextFire = Time.time + fireRate;
