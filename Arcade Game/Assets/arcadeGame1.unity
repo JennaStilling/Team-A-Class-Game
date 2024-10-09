@@ -735,6 +735,7 @@ MonoBehaviour:
   - damage: 9999
     fireRate: 0.01
     weaponRange: 9999
+  weaponParentObject: {fileID: 145465118}
 --- !u!1 &150041358
 GameObject:
   m_ObjectHideFlags: 0
@@ -2180,6 +2181,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3809204216628464337, guid: c698071fe8966394cbf509351e7a7eb5, type: 3}
+      propertyPath: types.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6401767761956230854, guid: c698071fe8966394cbf509351e7a7eb5, type: 3}
       propertyPath: m_IsTrigger
       value: 1
@@ -2192,7 +2197,8 @@ PrefabInstance:
       propertyPath: _damage
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3809204216628464337, guid: c698071fe8966394cbf509351e7a7eb5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

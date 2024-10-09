@@ -29,6 +29,11 @@ public class WeaponManager : MonoBehaviour
 
     private RayCast playerRaycast;
 
+    public GameObject weaponParentObject;
+
+    private GameObject swordObject;
+    private GameObject blasterObject;
+
     private void changeMode(WeaponModes mode) 
     {
 
@@ -39,6 +44,10 @@ public class WeaponManager : MonoBehaviour
                 playerRaycast.fireRate = types[0].fireRate;
                 playerRaycast.weaponRange = types[0].weaponRange;
                 playerRaycast.isRederingLine = false;
+
+                swordObject.SetActive(true);
+                blasterObject.SetActive(false);
+
                 break;
             case WeaponModes.Blaster:
                 playerRaycast.damage = types[1].damage;
@@ -46,6 +55,8 @@ public class WeaponManager : MonoBehaviour
                 playerRaycast.weaponRange = types[1].weaponRange;
                 playerRaycast.isRederingLine = true;
                 //figure out what to do with ammo, maybe shoot through things
+                swordObject.SetActive(false);
+                blasterObject.SetActive(true);
                 break;
         }
     }
@@ -53,6 +64,12 @@ public class WeaponManager : MonoBehaviour
     void Start()
     {
         playerRaycast = FindObjectOfType<RayCast>();
+
+        swordObject = weaponParentObject.transform.Find("Sword").gameObject;
+        blasterObject = weaponParentObject.transform.Find("Blaster").gameObject;
+
+        swordObject.SetActive(true);
+        blasterObject.SetActive(false);
     }
 
     private void Update()

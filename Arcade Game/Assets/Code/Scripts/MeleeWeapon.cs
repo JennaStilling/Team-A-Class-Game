@@ -17,39 +17,49 @@ public class MeleeWeapon : Subject, PlayerIObserver
         set { _damage = value; }
     }
 
-
     private bool returning = false;
+
+    private WeaponManager weaponManager;      // Reference to the WeaponManager to check the current weapon mode
 
     void Start()
     {
         initialRotation = transform.localEulerAngles;
+        weaponManager = FindObjectOfType<WeaponManager>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isSwinging)
+        if (weaponManager.CurrentWeaponModeProp == WeaponManager.WeaponModes.Sword)
         {
-            isSwinging = true;
-            returning = false;
-            currentSwingTime = 0f;
-        }
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !isSwinging)
+            {
+                isSwinging = true;
+                returning = false;
+                currentSwingTime = 0f;
+            }
 
-        if (isSwinging)
+            if (isSwinging)
+            {
+                SwingWeapon();
+            }
+        }
+        else
         {
-            SwingWeapon();
+            ResetWeaponRotation();
         }
     }
 
-    //switched to raycast damage
-    //void OnTriggerEnter(Collider other){
-    //    if(isSwinging){
-    //        if (other.CompareTag("Employee"))
-    //        {
-    //            other.GetComponent<EmployeeEnemyManager>().TakeDamage(_damage);
-    //        }
-    //    }
-        
-    //}
+    // Switched to raycast damage
+    // void OnTriggerEnter(Collider other)
+    // {
+    //     if(isSwinging)
+    //     {
+    //         if (other.CompareTag("Employee"))
+    //         {
+    //             other.GetComponent<EmployeeEnemyManager>().TakeDamage(_damage);
+    //         }
+    //     }
+    // }
 
     void SwingWeapon()
     {
@@ -80,9 +90,19 @@ public class MeleeWeapon : Subject, PlayerIObserver
         }
     }
 
+    void ResetWeaponRotation()
+    {
+        if (isSwinging)
+        {
+            transform.localEulerAngles = initialRotation; 
+            isSwinging = false; 
+            currentSwingTime = 0f; 
+            returning = false; 
+        }
+    }
+
     public void OnNotify(EmployeeEnemyManager enemy)
     {
         AddObserver(enemy);
     }
 }
-
