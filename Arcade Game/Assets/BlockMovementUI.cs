@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,8 @@ public class BlockMovementUI : MonoBehaviour
     private bool isHit = false;
     private string assignedKey;
 
+    private Image hitAreaImage; // Reference to the hit area's Image component
+
     // Initialize block movement
     public void Initialize(RectTransform column, RectTransform hitArea, float blockSpeed, DDRGame controller)
     {
@@ -17,6 +20,8 @@ public class BlockMovementUI : MonoBehaviour
         blockRectTransform = GetComponent<RectTransform>();
         hitAreaRectTransform = hitArea;
         gameController = controller;
+
+        hitAreaImage = hitArea.GetComponent<Image>(); // Get the Image component of the hit area
 
         // Assign key based on column index
         assignedKey = column.name switch
@@ -43,6 +48,8 @@ public class BlockMovementUI : MonoBehaviour
             {
                 Debug.Log("Block hit successfully!");
                 isHit = true;
+                ChangeHitAreaColor(Color.green); // Change the hit area's color to green
+                StartCoroutine(ResetHitAreaColor()); // Start coroutine to reset the color
                 Destroy(gameObject);
             }
         }
@@ -53,5 +60,21 @@ public class BlockMovementUI : MonoBehaviour
             gameController.OnBlockMissed();
             Destroy(gameObject); // Destroy the block if it reaches the bottom without a hit
         }
+    }
+
+    // Change the color of the hit area
+    void ChangeHitAreaColor(Color color)
+    {
+        if (hitAreaImage != null)
+        {
+            hitAreaImage.color = color;
+        }
+    }
+
+    // Coroutine to reset the hit area's color after a short delay
+    IEnumerator ResetHitAreaColor()
+    {
+        yield return new WaitForSeconds(0.5f); // Wait for 0.5 seconds
+        ChangeHitAreaColor(Color.white); // Reset the color back to white
     }
 }

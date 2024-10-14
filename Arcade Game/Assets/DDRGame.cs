@@ -24,6 +24,9 @@ public class DDRGame : MonoBehaviour
             StartGame();
         }
 
+        // Handle transparency of hit areas based on key presses
+        HandleHitAreaTransparency();
+
         // If the game has started, start spawning blocks
         if (gameStarted)
         {
@@ -34,6 +37,60 @@ public class DDRGame : MonoBehaviour
                 SpawnBlock();
                 spawnTimer = 0f;
             }
+        }
+    }
+
+    // Function to handle transparency based on key presses
+    void HandleHitAreaTransparency()
+    {
+        // Check if 'c', 'v', 'n', or 'm' is pressed and adjust the alpha for the corresponding hit area
+        if (Input.GetKey(KeyCode.C))
+        {
+            SetHitAreaAlpha(0, 100f); // Set alpha to 100 for Column1
+        }
+        else
+        {
+            SetHitAreaAlpha(0, 5f); // Set alpha back to 5 for Column1
+        }
+
+        if (Input.GetKey(KeyCode.V))
+        {
+            SetHitAreaAlpha(1, 100f); // Set alpha to 100 for Column2
+        }
+        else
+        {
+            SetHitAreaAlpha(1, 5f); // Set alpha back to 5 for Column2
+        }
+
+        if (Input.GetKey(KeyCode.N))
+        {
+            SetHitAreaAlpha(2, 100f); // Set alpha to 100 for Column3
+        }
+        else
+        {
+            SetHitAreaAlpha(2, 5f); // Set alpha back to 5 for Column3
+        }
+
+        if (Input.GetKey(KeyCode.M))
+        {
+            SetHitAreaAlpha(3, 100f); // Set alpha to 100 for Column4
+        }
+        else
+        {
+            SetHitAreaAlpha(3, 5f); // Set alpha back to 5 for Column4
+        }
+    }
+
+    // Function to set the alpha of the hit area's Image component
+    void SetHitAreaAlpha(int columnIndex, float alphaValue)
+    {
+        Image hitAreaImage = hitAreas[columnIndex].GetComponent<Image>();
+
+        if (hitAreaImage != null)
+        {
+            Color color = hitAreaImage.color;
+            color.a = alphaValue / 255f; // Alpha should be between 0 and 1, so divide by 255
+            hitAreaImage.color = color;
         }
     }
 
