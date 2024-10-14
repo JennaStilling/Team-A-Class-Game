@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: aaf926fee5e4f804daa6ff33943ac0a7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerPrefab: {fileID: 3526089569225313080, guid: 497b51ec33222d344a5031de22f66988, type: 3}
+  - bulletPrefab: {fileID: 5815540420282685782, guid: e8eeb5ce1fbba6540afb7ffd7a63fe9d, type: 3}
+  - enemyPrefab: {fileID: 3887023071103872930, guid: 526b803c40fc58749ac068c4da58d55d, type: 3}
+  - bulletSpawnPoint: {instanceID: 0}
+  - enemySpawnPoint: {instanceID: 0}
+  - gamePanel: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

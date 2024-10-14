@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+
 
 
 [RequireComponent(typeof(CharacterController))]
@@ -14,13 +16,13 @@ public class PlayerMovement : MonoBehaviour
 
     public Camera playerCamera;
 
-    public float walkSpeed = 6f;
+    public float walkSpeed = 4f;
 
-    public float runSpeed = 12f;
+    public float runSpeed = 6f;
 
-    public float jumpPower = 7f;
+    public float jumpPower = 5f;
 
-    public float gravity = 10f;
+    public float gravity = 8f;
 
     public float lookSpeed = 2f;
 
@@ -39,12 +41,23 @@ public class PlayerMovement : MonoBehaviour
     private float rotationX = 0;
 
     private CharacterController characterController;
-    private int currentHealth;              
-    public Transform respawnPoint;         
+    private int currentHealth = 100;  
+    
+    public int CurrentHealthProp 
+    {
+        get { return currentHealth; }
+        set {
+            currentHealth = value;
+        }
+    }
+
+    public Vector3 respawnPosition;
+    public Quaternion respawnRotation;
+
     public float respawnDelay = 2f;      
     public float damageCooldown = 1f;      
 
-    private bool isDead = false;            
+    private bool _isDead = false;            
     private bool canTakeDamage = true;      
 
 
@@ -69,12 +82,15 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
 
         currentHealth = 100;
+
+        respawnPosition = transform.position;
+        respawnRotation = transform.rotation;
     }
 
 
     public void TakeDamage(int damage)
     {
-        if (isDead || !canTakeDamage)
+        if (_isDead || !canTakeDamage)
             return;
 
         currentHealth -= damage;
@@ -97,26 +113,22 @@ public class PlayerMovement : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player died!");
-        isDead = true;
-
+        _isDead = true;
+        _canMove = false;
         Invoke("Respawn", respawnDelay);
     }
 
     void Respawn()
     {
         currentHealth = 100;
-        isDead = false;
+        _isDead = false;
 
-        if (respawnPoint != null)
-        {
-            transform.position = respawnPoint.position;
-            transform.rotation = respawnPoint.rotation;
-            Debug.Log("Player respawned at respawn point: " + respawnPoint.position);
-        }
-        else
-        {
-            Debug.LogError("Respawn point is not assigned!");
-        }
+        characterController.enabled = false;
+        transform.position = respawnPosition;
+        transform.rotation = respawnRotation;
+        characterController.enabled = true;
+
+        _canMove = true;
     }
 
 
@@ -191,21 +203,18 @@ public class PlayerMovement : MonoBehaviour
 
             characterController.height = defaultHeight;
 
-            walkSpeed = 6f;
+            walkSpeed = 4f;
 
-            runSpeed = 12f;
+            runSpeed = 6f;
 
         }
 
-
-
         characterController.Move(moveDirection * Time.deltaTime);
-
-
 
         if (_canMove)
 
-        {
+        {    
+
 
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
 
@@ -217,7 +226,5 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("moving");
 
         }
-
     }
-
 }

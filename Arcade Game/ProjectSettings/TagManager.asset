@@ -6,6 +6,9 @@ TagManager:
   tags:
   - token
   - Employee
+  - Ball
+  - Passed
+  - Pipe
   layers:
   - Default
   - TransparentFX

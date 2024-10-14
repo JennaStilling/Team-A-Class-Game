@@ -23,10 +23,12 @@ public class TaskGoToTarget : Node
 
     public override NodeState Evaluate()
     {
+        //Debug.Log("In go to target task");
         Transform target = (Transform)GetData("target");
 
-        if (Vector2.Distance(_transform.position, target.position) > 1f)
+        if (Vector2.Distance(_transform.position, target.position) > _navMeshAgent.stoppingDistance)
         {
+            //Debug.Log("Not at target");
             _navMeshAgent.destination = target.position;
             // set animation - walking
         }

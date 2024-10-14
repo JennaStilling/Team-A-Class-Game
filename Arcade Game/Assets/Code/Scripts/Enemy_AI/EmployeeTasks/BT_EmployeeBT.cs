@@ -9,7 +9,7 @@ public class EmployeeBT : Tree
     
     public static float speed = 2f;
     public static float fovRange = 4f;
-    public static float attackRange = 2f;
+    public static float attackRange = 4f;
 
     protected override Node SetupTree()
     {
