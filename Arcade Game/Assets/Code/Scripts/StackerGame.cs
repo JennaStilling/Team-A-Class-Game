@@ -31,6 +31,7 @@ public class StackerGame : MonoBehaviour
     private bool continuedAfterMinorPrize = false;
     private bool minorPrizeReached = false;
     private bool awaitingPlayerChoice = false;
+    public TextMeshProUGUI ContinueOrCollect;
 
     private RectTransform[] currentBlocks;
     private List<RectTransform> previousBlocks = new List<RectTransform>(); 
@@ -49,7 +50,7 @@ public class StackerGame : MonoBehaviour
     {
         isGameActive = false;
         isStopped = true;
-
+        ContinueOrCollect.enabled = false;
         CreatePrizeLabelWithBackground(ref minorPrizeBackground, ref minorPrizeText, "MINOR: " + MinorPrize + " Tickets", 9, Color.white);
 
         CreatePrizeLabelWithBackground(ref jackpotBackground, ref jackpotText, "MAJOR: " + Jackpot + " Tickets", 14, Color.yellow);
@@ -76,12 +77,14 @@ public class StackerGame : MonoBehaviour
         {
             if (playerInRange && Input.GetKeyDown(KeyCode.A))
             {
+                ContinueOrCollect.enabled = false;
                 Debug.Log("You collected the MINOR PRIZE!");
                 GameManager.Instance.AddTickets(MinorPrize);
                 ResetGame(); 
             }
             else if (playerInRange && Input.GetKeyDown(KeyCode.D))
             {
+                ContinueOrCollect.enabled = false;
                 Debug.Log("You're going for the JACKPOT!");
                 ContinueFromMinorPrize(); 
             }
@@ -302,6 +305,7 @@ public class StackerGame : MonoBehaviour
             awaitingPlayerChoice = true;
             isStopped = true;
             Debug.Log("You've reached the MINOR PRIZE! Press 'A' to collect or 'D' to continue.");
+            ContinueOrCollect.enabled = true;
             return;
         }
 
