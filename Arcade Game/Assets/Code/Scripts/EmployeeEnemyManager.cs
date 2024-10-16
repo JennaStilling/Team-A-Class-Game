@@ -3,11 +3,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
-using System.Collections.Generic;
-using Observations;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.XR;
 
 public class EmployeeEnemyManager : MonoBehaviour, IObserver
 {
@@ -62,6 +57,8 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
 
     public bool TakeDamage(float amt)
     {
+        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(1).gameObject.SetActive(false);
         _healthpoints -= amt;
         isUnderAttack = true;
         PlayAttackSound();
@@ -143,10 +140,14 @@ public class EmployeeEnemyManager : MonoBehaviour, IObserver
         if (alert == EnemyAlerts.Help)
         {
             isUnderAttack = true;
+            transform.GetChild(0).gameObject.SetActive(true);
+            transform.GetChild(1).gameObject.SetActive(false);
         }
         else
         {
             isUnderAttack = false;
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(1).gameObject.SetActive(true);
         }
     }
 
