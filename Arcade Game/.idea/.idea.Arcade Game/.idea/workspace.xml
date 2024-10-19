@@ -6,36 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f20aa7d4-3949-4857-8ecc-5508c965c7f1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arcade Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arcade Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/EmployeeEnemyManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/EmployeeEnemyManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Scripts/Enemy_AI/EmployeeTasks/BT_EmployeeCheckIfSelfUnderAttack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Scripts/Enemy_AI/EmployeeTasks/BT_EmployeeCheckIfSelfUnderAttack.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/angry.obj.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/angry.obj.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface10SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface10SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface11SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface11SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface12SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface12SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface13SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface13SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface14SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface14SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface15SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface15SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface16SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface16SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface17SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface17SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface18SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface18SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface6SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface6SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface7SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface7SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface9SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/AngrySecurityGuard/standardSurface9SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Security Guard/HappySecurityGuard/standardSurface18SG_Normal_1001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Security Guard/HappySecurityGuard/standardSurface18SG_Normal_1001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Teddy Bear/TeddyBear Texture/initialShadingGroup_Normal.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Teddy Bear/TeddyBear Texture/initialShadingGroup_Normal.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Wheel.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Wheel.mat.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/wheel_base_wheel_1_BaseMap.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/wheel_base_wheel_1_BaseMap.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/wheel_base_wheel_1_MaskMap.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/wheel_base_wheel_1_MaskMap.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/wheel_base_wheel_1_Normal.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/wheel_base_wheel_1_Normal.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Employee.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Employee.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/arcadeGame1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/arcadeGame1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/arcadeGame1/NavMesh-NavMesh 1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/arcadeGame1/NavMesh-NavMesh 1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +114,7 @@
       <workItem from="1726765662444" duration="2700000" />
       <workItem from="1727284052163" duration="157000" />
       <workItem from="1727284483737" duration="2457000" />
-      <workItem from="1728909304556" duration="7554000" />
+      <workItem from="1728909304556" duration="8206000" />
     </task>
     <servers />
   </component>
