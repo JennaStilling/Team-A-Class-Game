@@ -30,6 +30,7 @@ public class TaskGoToTarget : Node
         {
             //Debug.Log("Not at target");
             _navMeshAgent.destination = target.position;
+            _transform.LookAt(new Vector3(target.position.x, _transform.position.y, target.position.z));
             // set animation - walking
         }
 

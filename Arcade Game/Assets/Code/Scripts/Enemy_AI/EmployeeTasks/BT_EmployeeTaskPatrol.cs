@@ -53,6 +53,7 @@ public class EmployeeTaskPatrol : Node
             else
             {
                 _navMeshAgent.destination = wp.position;
+                _transform.LookAt(new Vector3(wp.position.x, _transform.position.y, wp.position.z));
             }
         }
 

@@ -39,13 +39,7 @@ public class Spawner : PlayerSubject
         GameObject temp = Instantiate(_employee, _spawnPoint);
         NotifyObservers(temp.GetComponent<EmployeeEnemyManager>());
     }
-
-    /*
-     * Change this code later!!!
-     * There should be a way to know how many employees are in the area at a given time without trying to find using children of SpawnLocation
-     * Instead of starting the coroutine after every HandleSpawnTimer() call since that uses up resources, when an employee is defeated, there should be an alert sent out when an employee dies that decrements the counter
-     * ^ Where door is the subscriber to the notifier and 
-     */
+    
     public IEnumerator HandleSpawnTimer()
     {
         //yield return new WaitForSeconds(spawnTimer);

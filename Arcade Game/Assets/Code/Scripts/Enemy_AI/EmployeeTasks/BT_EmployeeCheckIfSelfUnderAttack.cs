@@ -17,6 +17,8 @@ public class EmployeeCheckIfSelfUnderAttack : Node
     {
         if (_selfManager.isUnderAttack)
         {
+            _transform.GetChild(0).gameObject.SetActive(true);
+            _transform.GetChild(1).gameObject.SetActive(false);
             parent.parent.SetData("target", GameObject.Find("Player").transform); // rewrite this line later to get reference to player instead of ... could be a reference to what object set off the notify alert
             return NodeState.SUCCESS;
         }
