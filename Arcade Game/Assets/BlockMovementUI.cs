@@ -43,14 +43,13 @@ public class BlockMovementUI : MonoBehaviour
         // Check if the block is in the 'Hit' area
         if (blockRectTransform.anchoredPosition.y <= hitAreaRectTransform.anchoredPosition.y + 50f && !isHit)
         {
-            // If the player presses the correct key, destroy the block
+            // If the player presses the correct key, process the hit
             if (Input.GetKeyDown(assignedKey))
             {
                 Debug.Log("Block hit successfully!");
                 isHit = true;
                 ChangeHitAreaColor(Color.green); // Change the hit area's color to green
-                StartCoroutine(ResetHitAreaColor()); // Start coroutine to reset the color
-                Destroy(gameObject);
+                StartCoroutine(ResetHitAreaColorAndDestroy()); // Start coroutine to reset the color and then destroy
             }
         }
 
@@ -71,10 +70,12 @@ public class BlockMovementUI : MonoBehaviour
         }
     }
 
-    // Coroutine to reset the hit area's color after a short delay
-    IEnumerator ResetHitAreaColor()
+    // Coroutine to reset the hit area's color and then destroy the block
+    IEnumerator ResetHitAreaColorAndDestroy()
     {
         yield return new WaitForSeconds(0.5f); // Wait for 0.5 seconds
         ChangeHitAreaColor(Color.white); // Reset the color back to white
+        yield return new WaitForSeconds(0.1f); // Give a little extra time before destroying the block
+        Destroy(gameObject); // Now destroy the block
     }
 }
